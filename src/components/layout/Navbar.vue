@@ -40,7 +40,7 @@
                   </template>
                   <a class="whitespace-nowrap text-base font-medium text-white hover:text-blue-500">Sign in</a>
                 </a-popover>
-              <a href="signup" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Sign up</a>
+              <a href="/signup" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Sign up</a>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@
     </div>
 
     <DisclosurePanel class="md:hidden">
-      <div class="absolute inset-x-0 top-15 origin-top-right transform p-2 transition md:hidden">
+      <div class="absolute inset-x-0 top-15 origin-top-right transform p-2 transition md:hidden z-50">
         <div class="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
           <div class="px-5 pt-5 pb-6">
             <div class="mt-6">
@@ -100,8 +100,8 @@ const user = {
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   }
   const navigation = [
-    { name: 'Home', href: '#', current: true },
-    { name: 'Daftar Kegiatan', href: '#' },
+    { name: 'Home', href: '/', current: true },
+    { name: 'Daftar Kegiatan', href: '/activity' },
   ]
   const userNavigation = [
     { name: 'Your Profile', href: '#' },
