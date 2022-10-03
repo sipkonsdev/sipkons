@@ -14,6 +14,21 @@ const router = createRouter({
       name: "signup",
       component: () => import("../views/Signup.vue"),
     },
+    {
+      path: "/activity",
+      children: [
+        {
+          path: "/activity",
+          name: "activity",
+          component: () => import("../views/Activity.vue"),
+        },
+        {
+          path: "/activity/add",
+          name: "add",
+          component: () => import("../views/FormActivity.vue"),
+        }
+      ]
+    },
   ],
 })
 
