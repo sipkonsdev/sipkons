@@ -91,7 +91,7 @@
             <div class="bg-gray-50 px-4 py-5 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Peta Lokasi</dt>
               <div>
-                Peta
+                <Maps />
               </div>
               <!-- <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">Billy</dd> -->
             </div>
@@ -103,10 +103,9 @@
   </div>
 </template>
 
-<script>
-export default {
-
-}
+<script setup>
+import Maps from '../Maps/Maps.vue';
+  
 </script>
 
 <style>
