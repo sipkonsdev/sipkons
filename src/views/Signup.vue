@@ -99,6 +99,12 @@
     {
       name: "Kepala Seksi Peningkatan Kualitas PKP",
     },
+    {
+      name: 'Kontraktor Pelaksana',
+    },
+    {
+      name: 'Konsultan Pengawas',
+    },
   ]
 </script>
 
