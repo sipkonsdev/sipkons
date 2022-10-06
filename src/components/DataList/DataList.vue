@@ -29,6 +29,9 @@
                   <a-menu-item>
                     <a href="javascript:;">Remove</a>
                   </a-menu-item>
+                  <a-menu-item>
+                    <a href="/activity/detail">Lihat Detail</a>
+                  </a-menu-item>
                 </a-menu>
               </template>
             </a-dropdown>
@@ -61,7 +64,7 @@
               <dt class="text-sm font-medium text-gray-500">Progress Kegiatan</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">70%</dd>
             </div>
-            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div v-if="false" class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Pengawasan Mingguan</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <div class="flex grid-cols-2 gap-4 mt-5 sm:mt-0">
@@ -128,12 +131,13 @@
                 </div>
               </dd>
             </div>
-            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div v-if="false" class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Pengawasan Harian</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <div class="flex grid-cols-2 gap-4 mt-5 sm:mt-0">
                   <!-- <p>Tanggal</p> -->
-                  <p>30/08/2022</p>
+                  <!-- <p>30/08/2022</p> -->
+                  <a-date-picker />
                 </div>
                 <ul role="list" class="divide-y divide-gray-200 rounded-md border border-gray-200">
                   <li class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
@@ -195,7 +199,7 @@
                 </div>
               </dd>
             </div>
-            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div v-if="false" class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Undangan Rapat</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <ul role="list" class="divide-y divide-gray-200 rounded-md border border-gray-200">
@@ -226,7 +230,7 @@
                 </ul>
               </dd>
             </div>
-            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div v-if="false" class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Catatan Khusus</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <ul role="list" class="divide-y divide-gray-200 rounded-md border border-gray-200">
@@ -257,7 +261,7 @@
                 </ul>
               </dd>
             </div>
-            <div class="bg-gray-50 px-4 py-5 sm:px-6">
+            <div v-if="false" class="bg-gray-50 px-4 py-5 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Peta Lokasi</dt>
               <div>
                 <Maps />
