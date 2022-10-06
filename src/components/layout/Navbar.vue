@@ -48,17 +48,17 @@
                   <template #content>
                     <div class="py-2 px-1">
                       <div class="mb-2" >
-                        Nama user
+                        {{ store.user.user.fullname }}
                       </div>
                       <div class="mb-2" >
-                        Role
+                        {{ store.user.user.email }}
                       </div>
                       <div class="mt-5 box-content flex justify-start cursor-pointer">
                         <div class="font-medium text-blue-600" @click="logout">Logout</div>
                       </div>
                     </div>
                   </template>
-                  <span class="font-medium text-gray-600 dark:text-gray-300 cursor-pointer" @click="toogleAvatar(avatar)">JL</span>
+                  <span class="font-medium text-gray-600 dark:text-gray-300 cursor-pointer" @click="toogleAvatar(avatar)">{{ store.user.user.username?.charAt(0).toUpperCase()}}</span>
                 </a-popover>  
             </div>
           </div>
@@ -107,7 +107,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { login } from '../../services/api/login'
+import { login } from '../../services/api'
 import { notification } from 'ant-design-vue';
 import router from '../../router';
 import { useStore } from '../../store/index'

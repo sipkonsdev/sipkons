@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-for="(item, index) in 5"
+      v-for="(item, index) in dataList"
       :key="index"
       class="p-2"
     >
@@ -12,7 +12,7 @@
         <template #header>
           <div class="w-full flex justify-between">
             <div class="px-4 py-1-sm sm:px-6">
-              <p class="text-xl font-medium text-gray-900">Nama Kegiatan</p>
+              <p class="text-xl font-medium text-gray-900">{{ item.attributes.package_name }}</p>
               <p class="mt-1 max-w-2xl text-sm text-gray-500">Informasi Projek</p>
             </div>
             <a-dropdown v-if="store.user.isLogin && store.user.user.username?.toLowerCase() == 'admin'">
@@ -42,27 +42,27 @@
           <dl>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Nama Proyek</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">Sipkons</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.package_name }}</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Lokasi</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">Kelurahan Kebon Bawang</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.address }}</dd>
             </div>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">RW</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">RW 04, RW 06</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.address }}</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Kontraktor Pelaksana</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">PT. JAYA</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.contract_value }}</dd>
             </div>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Konsultan Pengawas</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">Billy</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">Billy - dummy</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Progress Kegiatan</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">70%</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">70% - dummy</dd>
             </div>
             <div v-if="false" class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Pengawasan Mingguan</dt>
@@ -277,11 +277,32 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue';
 import Maps from '../Maps/Maps.vue';
 import { useStore } from '../../store'
+import { projectList } from '../../services/api';
 
 const store = useStore()
-  
+
+const dataList = ref({})
+
+onMounted(() => {
+  fetchListProject()
+})
+
+const fetchListProject = async () => {
+ let params = {
+    populate: 'daily_monitorings,weekly_monitorings,meetings,notes'
+  } 
+  await projectList(params)
+      .then(response => {
+        dataList.value = response.data.data
+        console.log(dataList.value)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+}
 </script>
 
 <style>
