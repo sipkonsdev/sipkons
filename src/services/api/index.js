@@ -7,3 +7,11 @@ export const login = (payload) => {
     data: payload,
   })
 }
+
+export const projectList = (params) => {
+  return apiClient({
+    method: 'get',
+    url: '/api/projects',
+    params,
+  })
+}
