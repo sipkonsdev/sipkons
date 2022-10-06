@@ -283,7 +283,7 @@
       lineHeight: '30px',
     };
   
-    const menu = ref([])
+    const menu = ref(['weekly'])
     const handleMenu = (param) => {
       menu.value =[ param ]
       console.log(menu.value)
