@@ -28,7 +28,7 @@
 
     <div class="mt-32 flex justify-center lg:flex-shrink-0">
       <div class="inline-flex rounded-md shadow">
-        <a href="activity" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700">Lihat Daftar Kegiatan</a>
+        <a class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700" @click="toActivityPage">Lihat Daftar Kegiatan</a>
       </div>
     </div>
   </div>
@@ -39,6 +39,13 @@ import Dki from '../assets/logo/Dki.vue';
 import Jakarta from '../assets/logo/Jakarta.vue';
 import Sirukim from '../assets/logo/Sirukim.vue';
 import Jakhabitat from '../assets/logo/Jakhabitat.vue';
+import router from '../router';
+
+const toActivityPage = () => {
+  router.push({
+    name: 'activity',
+  })
+}
 </script>
 
 <style>

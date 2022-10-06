@@ -23,24 +23,43 @@
             </button> -->
 
             <!-- Sign in & Sign up -->
-            <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-                <a-popover v-if="true" trigger="click">
+            <div v-if="!store.user.isLogin" class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
+                <a-popover :visible="visible" trigger="click">
                   <template #content>
                     <div class="py-2 px-1">
                       <div class="mb-2" >
-                        <a-input v-model="state_.username" placeholder="Username" />
+                        <a-input placeholder="Username" @change="handleUsername"/>
                       </div>
                       <div class="mb-2" >
-                        <a-input v-model="state_.password" placeholder="Password" />
+                        <a-input-password placeholder="Password" @change="handlePassword"/>
                       </div>
                       <div class="box-content flex justify-end">
                         <a class="whitespace-nowrap text-sm rounded-md border border-transparent bg-indigo-600 font-medium text-white hover:text-blue-500 px-2 py-1" @click="loginUser">Sign in</a>
                       </div>
                     </div>
                   </template>
-                  <a class="whitespace-nowrap text-base font-medium text-white hover:text-blue-500">Sign in</a>
+                  <a class="whitespace-nowrap text-base font-medium text-white hover:text-blue-500" @click="toogleLogin(visible)">Sign in</a>
                 </a-popover>
               <!-- <a href="/signup" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Sign up</a> -->
+            </div>
+
+            <div v-if="store.user.isLogin" class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600">
+              <a-popover :visible="avatar" trigger="click">
+                  <template #content>
+                    <div class="py-2 px-1">
+                      <div class="mb-2" >
+                        Nama user
+                      </div>
+                      <div class="mb-2" >
+                        Role
+                      </div>
+                      <div class="mt-5 box-content flex justify-start cursor-pointer">
+                        <div class="font-medium text-blue-600" @click="logout">Logout</div>
+                      </div>
+                    </div>
+                  </template>
+                  <span class="font-medium text-gray-600 dark:text-gray-300 cursor-pointer" @click="toogleAvatar(avatar)">JL</span>
+                </a-popover>  
             </div>
           </div>
         </div>
@@ -87,18 +106,28 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { login } from '../../services/api/login'
+import { notification } from 'ant-design-vue';
+import router from '../../router';
+import { useStore } from '../../store/index'
+import Cookies from 'js-cookie'
 
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 import './navbar.scss'
 
+
+const store = useStore()
+
 const state_ = reactive({
   username: '',
   password: '',
+  popLogin: false,
 })
+const visible = ref(false)
+const avatar = ref(false)
 const user = {
     name: 'Tom Cook',
     email: 'tom@example.com',
@@ -115,18 +144,56 @@ const user = {
     { name: 'Sign out', href: '#' },
   ]
 
+  const handleUsername = (e) => {
+    state_.username = e.target.value
+  }
+  const handlePassword = (e) => {
+    state_.password = e.target.value
+  }
+  const toogleLogin = (param) => {
+    visible.value = !param
+  }
+  const toogleAvatar = (param) => {
+    avatar.value = !param
+  }
+
   const loginUser = async () => {
     const param = {
       identifier: state_.username,
       password: state_.password,
     }
-    await login(param).then(response => {
-      console.log('response', response)
-    })
-    .catch(err => {
-      console.error(err)
-    })
+    await login(param)
+      .then(response => {
+        sessionStorage.setItem("jwt", response.data.jwt)
+        sessionStorage.setItem("user", JSON.stringify(response.data.user))
+        visible.value = false
+        store.user = {
+          isLogin: true,
+          jwt: response.data.jwt,
+          user: response.data.user,
+        }
+        notification.success({
+          message: 'Succes login',
+        })
+        router.push({
+          name: 'home'
+        })
+      })
+      .catch(err => {
+        console.error(err)
+      })
     // .finally(() => this.isLoading = false)
+  }
+
+  const logout = () => {
+    sessionStorage.clear()
+    store.user = {
+          isLogin: false,
+          jwt: '',
+        }
+    router.push({
+      name: 'home',
+    })
   }
 </script>
 

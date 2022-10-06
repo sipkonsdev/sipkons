@@ -277,13 +277,8 @@
 <script setup>
   import { ref } from 'vue'
   import Maps from '../components/Maps/Maps.vue';
-  const radioStyle = {
-      display: 'flex',
-      height: '30px',
-      lineHeight: '30px',
-    };
   
-    const menu = ref(['weekly'])
+    const menu = ref(['daily'])
     const handleMenu = (param) => {
       menu.value =[ param ]
       console.log(menu.value)
