@@ -1,10 +1,10 @@
 <template>
 
-  <div class="hidden sm:block" aria-hidden="true">
+  <!-- <div class="hidden sm:block" aria-hidden="true">
     <div class="py-5">
       <div class="border-t border-gray-200" />
     </div>
-  </div>
+  </div> -->
 
   <div class="mt-10 sm:mt-0">
     <div class="md:grid md:grid-cols-3 md:gap-6">

@@ -28,19 +28,19 @@
                   <template #content>
                     <div class="py-2 px-1">
                       <div class="mb-2" >
-                        <a-input placeholder="Username" />
+                        <a-input v-model="state_.username" placeholder="Username" />
                       </div>
                       <div class="mb-2" >
-                        <a-input placeholder="Password" />
+                        <a-input v-model="state_.password" placeholder="Password" />
                       </div>
                       <div class="box-content flex justify-end">
-                        <a class="whitespace-nowrap text-sm rounded-md border border-transparent bg-indigo-600 font-medium text-white hover:text-blue-500 px-2 py-1">Sign in</a>
+                        <a class="whitespace-nowrap text-sm rounded-md border border-transparent bg-indigo-600 font-medium text-white hover:text-blue-500 px-2 py-1" @click="loginUser">Sign in</a>
                       </div>
                     </div>
                   </template>
                   <a class="whitespace-nowrap text-base font-medium text-white hover:text-blue-500">Sign in</a>
                 </a-popover>
-              <a href="/signup" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Sign up</a>
+              <!-- <a href="/signup" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Sign up</a> -->
             </div>
           </div>
         </div>
@@ -73,10 +73,10 @@
           </div>
           <div class="space-y-6 py-6 px-5">
             <div>
-              <a href="signup" class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Sign up</a>
+              <!-- <a href="signup" class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Sign up</a> -->
               <p class="mt-6 text-center text-base font-medium text-gray-500">
                 Existing customer?
-                <a href="#" class="text-indigo-600 hover:text-indigo-500">Sign in</a>
+                <button class="text-indigo-600 hover:text-indigo-500">Sign in</button>
               </p>
             </div>
           </div>
@@ -87,12 +87,18 @@
 </template>
 
 <script setup>
-import './navbar.scss'
-
+import { reactive } from 'vue'
+import { login } from '../../services/api/login'
 
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
+import './navbar.scss'
+
+const state_ = reactive({
+  username: '',
+  password: '',
+})
 const user = {
     name: 'Tom Cook',
     email: 'tom@example.com',
@@ -108,6 +114,20 @@ const user = {
     { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '#' },
   ]
+
+  const loginUser = async () => {
+    const param = {
+      identifier: state_.username,
+      password: state_.password,
+    }
+    await login(param).then(response => {
+      console.log('response', response)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+    // .finally(() => this.isLoading = false)
+  }
 </script>
 
 <style>

@@ -5,17 +5,17 @@
         <!-- <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">DKI Jakarta</p> -->
     </div>
     <a-menu :selectedKeys="menu" mode="horizontal">
-      <a-menu-item key="weekly" @click="handleMenu('weekly')">
-        <template #icon>
-          <mail-outlined />
-        </template>
-        Pengawasan Mingguan
-      </a-menu-item>
       <a-menu-item key="daily" @click="handleMenu('daily')">
         <template #icon>
           <mail-outlined />
         </template>
         Pengawasan Harian
+      </a-menu-item>
+      <a-menu-item key="weekly" @click="handleMenu('weekly')">
+        <template #icon>
+          <mail-outlined />
+        </template>
+        Pengawasan Mingguan
       </a-menu-item>
       <a-menu-item key="meeting" @click="handleMenu('meeting')">
         <template #icon>
@@ -66,11 +66,11 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <div class="flex items-center mb-4">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
+                            <input id="radio-weekly-konsultan" type="radio" value="" name="radio-weekly-konsultan" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
                             <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ">Setuju</label>
                         </div>
                         <div class="flex items-center">
-                            <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
+                            <input checked id="radio-weekly-konsultan" type="radio" value="" name="radio-weekly-konsultan" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
                             <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
                         </div>
                         <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
@@ -80,11 +80,11 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <div class="flex items-center mb-4">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
+                            <input id="radio-weekly-ksp" type="radio" value="" name="radio-weekly-ksp" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
                             <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ">Setuju</label>
                         </div>
                         <div class="flex items-center">
-                            <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
+                            <input checked id="radio-weekly-ksp" type="radio" value="" name="radio-weekly-ksp" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
                             <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
                         </div>
                         <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
@@ -94,11 +94,11 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <div class="flex items-center mb-4">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
+                            <input id="radio-weekly-ksd" type="radio" value="" name="radio-weekly-ksd" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
                             <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ">Setuju</label>
                         </div>
                         <div class="flex items-center">
-                            <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
+                            <input checked id="radio-weekly-ksd" type="radio" value="" name="radio-weekly-ksd" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
                             <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
                         </div>
                         <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
@@ -145,11 +145,11 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <div class="flex items-center mb-4">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
+                            <input id="radio-daily-konsultan" type="radio" value="" name="radio-daily-konsultan" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
                             <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ">Setuju</label>
                         </div>
                         <div class="flex items-center">
-                            <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
+                            <input checked id="radio-daily-konsultan" type="radio" value="" name="radio-daily-konsultan" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
                             <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
                         </div>
                         <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
@@ -159,11 +159,11 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <div class="flex items-center mb-4">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
+                            <input id="radio-daily-ksp" type="radio" value="" name="radio-daily-ksp" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
                             <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ">Setuju</label>
                         </div>
                         <div class="flex items-center">
-                            <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
+                            <input checked id="radio-daily-ksp" type="radio" value="" name="radio-daily-ksp" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
                             <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
                         </div>
                         <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
@@ -173,11 +173,11 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <div class="flex items-center mb-4">
-                            <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
+                            <input id="radio-daily-ksd" type="radio" value="" name="radio-daily-ksd" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
                             <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ">Setuju</label>
                         </div>
                         <div class="flex items-center">
-                            <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
+                            <input checked id="radio-daily-ksd" type="radio" value="" name="radio-daily-ksd" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
                             <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
                         </div>
                         <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
