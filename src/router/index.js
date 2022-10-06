@@ -26,6 +26,11 @@ const router = createRouter({
           path: "/activity/add",
           name: "add",
           component: () => import("../views/FormActivity.vue"),
+        },
+        {
+          path: "/activity/detail",
+          name: "detail",
+          component: () => import("../views/DetailActivity.vue"),
         }
       ]
     },
