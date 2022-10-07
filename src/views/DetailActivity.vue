@@ -61,7 +61,7 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <a class="font-medium text-blue-600 ">Upload</a>
-                        <a :href="item.attributes.documents?.data?.attributes?.url" class="mt-2 font-medium text-blue-600">{{ item.attributes.documents?.data?.attributes?.name }}</a>
+                        <a :href="`${url+item.attributes.documents?.data?.attributes?.url}`" class="mt-2 font-medium text-blue-600">{{ item.attributes.documents?.data?.attributes?.name }}</a>
                       </div>
                     </td>
                     <td class="py-4 px-6">
@@ -281,7 +281,7 @@ import { onMounted, ref } from 'vue'
   import { dailyList } from '../services/api';
 
   const daily = ref([])
-  const google ='/google.com'
+  const url = import.meta.env.VITE_API_URL
 
   onMounted(() => {
     fetchDaily()
