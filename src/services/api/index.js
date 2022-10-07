@@ -15,3 +15,11 @@ export const projectList = (params) => {
     params,
   })
 }
+
+export const dailyList = (params) => {
+  return apiClient({
+    method: 'get',
+    url: '/api/daily-monitorings',
+    params,
+  })
+}
