@@ -8,20 +8,20 @@
       </div>
 
       <div class="mt-28 grid gap-10 grid-cols-1 sm:grid sm:grid-cols-5">
-        <div class="flex justify-center">
+        <div class="flex justify-center sm:mt-3">
           <Jakarta />
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-center sm:mt-3">
           <Dki />
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-center sm:mt-3">
           <Sirukim />
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-center sm:mt-3">
           <Jakhabitat />
         </div>
         <div class="flex justify-center">
-          <Jakhabitat />
+          <Dprkp class="w-28 h-28"/>
         </div>
       </div>
     </div>
@@ -39,6 +39,8 @@ import Dki from '../assets/logo/Dki.vue';
 import Jakarta from '../assets/logo/Jakarta.vue';
 import Sirukim from '../assets/logo/Sirukim.vue';
 import Jakhabitat from '../assets/logo/Jakhabitat.vue';
+import Dprkp from '../assets/logo/Dprkp.vue';
+
 import router from '../router';
 
 const toActivityPage = () => {
