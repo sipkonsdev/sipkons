@@ -43,7 +43,7 @@
               <!-- <a href="/signup" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Sign up</a> -->
             </div>
 
-            <div v-if="store.user.isLogin" class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600">
+            <div v-if="store.user.isLogin" class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer" @click="toogleAvatar(avatar)">
               <a-popover :visible="avatar" trigger="click">
                   <template #content>
                     <div class="py-2 px-1">
@@ -58,7 +58,7 @@
                       </div>
                     </div>
                   </template>
-                  <span class="font-medium text-gray-600 dark:text-gray-300 cursor-pointer" @click="toogleAvatar(avatar)">{{ store.user.user.username?.charAt(0).toUpperCase()}}</span>
+                  <span class="font-medium text-gray-600 dark:text-gray-300" >{{ store.user.user.username?.charAt(0).toUpperCase()}}</span>
                 </a-popover>  
             </div>
           </div>
@@ -164,8 +164,8 @@ const user = {
     }
     await login(param)
       .then(response => {
-        sessionStorage.setItem("jwt", response.data.jwt)
-        sessionStorage.setItem("user", JSON.stringify(response.data.user))
+        Cookies.set("jwt", response.data.jwt)
+        Cookies.set("user", JSON.stringify(response.data.user))
         visible.value = false
         store.user = {
           isLogin: true,
@@ -186,7 +186,8 @@ const user = {
   }
 
   const logout = () => {
-    sessionStorage.clear()
+    Cookies.remove("jwt")
+    Cookies.remove("user")
     store.user = {
           isLogin: false,
           jwt: '',

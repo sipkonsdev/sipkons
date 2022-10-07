@@ -7,6 +7,7 @@
   import { RouterView } from "vue-router";
   import Layout from "./components/layout/Layout.vue";
   import { useStore } from '../src/store/index'
+  import Cookies from 'js-cookie'
 
   const store = useStore()
 
@@ -15,10 +16,10 @@
   })
 
   const checkLogin = () => {
-    if (sessionStorage.getItem("jwt")) {
+    if (Cookies.get("jwt")) {
       store.user.isLogin = true
-      store.user.jwt = sessionStorage.getItem("jwt")
-      store.user.user = JSON.parse(sessionStorage.getItem("user"))
+      store.user.jwt = Cookies.get("jwt")
+      store.user.user = JSON.parse(Cookies.get("user"))
     } else {
       store.user.isLogin = false
     }
