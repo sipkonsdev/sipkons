@@ -14,45 +14,45 @@
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-6">
                   <a-form-item
-                    name="name_project"
+                    name="package_name"
                     :rules="[{ required: true, message: 'Masukkan Nama Paket Pekerjaan!' }]"
                   >
-                    <label for="name_project" class="block text-sm font-medium text-gray-700">Nama Paket Pekerjaan</label>
-                    <a-input v-model:value="formState.name_project"/>
+                    <label for="package_name" class="block text-sm font-medium text-gray-700">Nama Paket Pekerjaan</label>
+                    <a-input v-model:value="formState.package_name"/>
                   </a-form-item>
                 </div>
 
                 <div class="col-span-6 sm:col-span-6">
                   <a-form-item
-                    name="location"
+                    name="project_location"
                     :rules="[{ required: true, message: 'Masukkan Lokasi!' }]"
                   >
-                    <label for="location" class="block text-sm font-medium text-gray-700">Lokasi</label>
-                    <a-input v-model:value="formState.location"/>
+                    <label for="project_location" class="block text-sm font-medium text-gray-700">Lokasi</label>
+                    <a-input v-model:value="formState.project_location.address"/>
                   </a-form-item>
                 </div>
 
                 <div class="col-span-6 sm:col-span-6">
                   <a-form-item
-                    name="rw"
+                    name="project_location"
                     :rules="[{ required: true, message: 'Masukkan RW!' }]"
                   >
-                    <label for="rw" class="block text-sm font-medium text-gray-700">RW</label>
-                    <a-input v-model:value="formState.rw"/>
+                    <label for="project_location" class="block text-sm font-medium text-gray-700">RW</label>
+                    <a-input v-model:value="formState.project_location.rw"/>
                   </a-form-item>
                 </div>
 
                 <div class="col-span-6 sm:col-span-6">
                   <a-form-item
-                    name="kontraktor"
+                    name="contractor"
                     :rules="[{ required: true, message: 'Masukkan Kontraktor!' }]"
                   >
-                    <label for="kontraktor" class="block text-sm font-medium text-gray-700">Kontraktor</label>
-                    <a-input v-model:value="formState.kontraktor"/>
+                    <label for="contractor" class="block text-sm font-medium text-gray-700">Kontraktor</label>
+                    <a-input v-model:value="formState.contractor"/>
                   </a-form-item>
                 </div>
 
-                <div class="col-span-6 sm:col-span-6">
+                <!-- <div class="col-span-6 sm:col-span-6">
                   <a-form-item
                     name="email_kontraktor"
                     :rules="[{ required: true, message: 'Masukkan Email Kontraktor!' }]"
@@ -60,19 +60,19 @@
                     <label for="email_kontraktor" class="block text-sm font-medium text-gray-700">Email Kontraktor</label>
                     <a-input v-model:value="formState.email_kontraktor"/>
                   </a-form-item>
-                </div>
+                </div> -->
 
                 <div class="col-span-6 sm:col-span-6">
                   <a-form-item
-                    name="konsultan_pengawas"
+                    name="consultant"
                     :rules="[{ required: true, message: 'Masukkan Konsultan Pengawas!' }]"
                   >
-                    <label for="konsultan_pengawas" class="block text-sm font-medium text-gray-700">Konsultan Pengawas</label>
-                    <a-input v-model:value="formState.konsultan_pengawas"/>
+                    <label for="consultant" class="block text-sm font-medium text-gray-700">Konsultan Pengawas</label>
+                    <a-input v-model:value="formState.consultant"/>
                   </a-form-item>
                 </div>
 
-                <div class="col-span-6 sm:col-span-6">
+                <!-- <div class="col-span-6 sm:col-span-6">
                   <a-form-item
                     name="email_konsultan_pengawas"
                     :rules="[{ required: true, message: 'Masukkan Email Konsultan Pengawas!' }]"
@@ -80,45 +80,45 @@
                     <label for="email_konsultan_pengawas" class="block text-sm font-medium text-gray-700">Email Konsultan Pengawas</label>
                     <a-input v-model:value="formState.email_konsultan_pengawas"/>
                   </a-form-item>
-                </div>
+                </div> -->
 
                 <div class="col-span-6 sm:col-span-6">
                   <a-form-item
-                    name="no_kontrak"
+                    name="contract_number"
                     :rules="[{ required: true, message: 'Masukkan No. Kontrak!' }]"
                   >
-                    <label for="no_kontrak" class="block text-sm font-medium text-gray-700">No. Kontrak</label>
-                    <a-input v-model:value="formState.no_kontrak"/>
+                    <label for="contract_number" class="block text-sm font-medium text-gray-700">No. Kontrak</label>
+                    <a-input v-model:value="formState.contract_number"/>
                   </a-form-item>
                 </div>
 
                 <div class="col-span-6 sm:col-span-6">
                   <a-form-item
-                    name="nilai_kontrak"
+                    name="contract_value"
                     :rules="[{ required: true, message: 'Masukkan Nilai Kontrak!' }]"
                   >
-                    <label for="nilai_kontrak" class="block text-sm font-medium text-gray-700">Nilai Kontrak</label>
-                    <a-input v-model:value="formState.nilai_kontrak"/>
+                    <label for="contract_value" class="block text-sm font-medium text-gray-700">Nilai Kontrak</label>
+                    <a-input v-model:value="formState.contract_value"/>
                   </a-form-item>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
                   <a-form-item
-                    name="tgl_mulai"
+                    name="contract_start_date"
                     :rules="[{ required: true, message: 'Masukkan Tanggal Mulai Kerja!' }]"
                   >
-                    <label for="tgl_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai Kerja</label>
-                    <a-date-picker v-model:value="formState.tgl_mulai" class="w-full"/>
+                    <label for="contract_start_date" class="block text-sm font-medium text-gray-700">Tanggal Mulai Kerja</label>
+                    <a-date-picker v-model:value="formState.contract_start_date" class="w-full"/>
                   </a-form-item>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
                   <a-form-item
-                    name="tgl_selesai"
+                    name="contract_end_date"
                     :rules="[{ required: true, message: 'Masukkan Tanggal Selesai Kontrak!' }]"
                   >
-                    <label for="tgl_selesai" class="block text-sm font-medium text-gray-700">Tanggal Selesai Kontrak</label>
-                    <a-date-picker v-model:value="formState.tgl_selesai" class="w-full"/>
+                    <label for="contract_end_date" class="block text-sm font-medium text-gray-700">Tanggal Selesai Kontrak</label>
+                    <a-date-picker v-model:value="formState.contract_end_date" class="w-full"/>
                   </a-form-item>
                 </div>
               </div>
@@ -139,24 +139,66 @@
 <script setup>
   import { reactive } from 'vue';
   import router from '../../router/index';
+  import { addProject } from '../../services/api';
 
+  
+  // rw: '',
+  //     kontraktor: '',
+  //     email_kontraktor: '',
+  //     konsultan_pengawas: '',
+  //     email_konsultan_pengawas: '',
+//   {
+//     "data": {
+//         "package_name": "string",
+//         "contract_number": "string",
+//         "contract_value": "123456789",
+//         "contract_start_date": "2022-10-05",
+//         "contract_end_date": "2022-10-05",
+//         "contractor": 1,
+//         "consultant": 1,
+//         "project_location": [
+//             {
+//                 "id": "random string",
+//                 "address": "string",
+//                 "rt": "string",
+//                 "rw": "string",
+//                 "postal_code": "string",
+//                 "coordinate": "23123,12313"
+//             }
+//         ]
+//     }
+// }
   const formState = reactive({
-      name_project: '',
-      location: '',
-      rw: '',
-      kontraktor: '',
-      email_kontraktor: '',
-      konsultan_pengawas: '',
-      email_konsultan_pengawas: '',
-      no_kontrak: '',
-      nilai_kontrak: '',
-      tgl_mulai: '',
-      tgl_selesai: '',
+      package_name: '',
+      contract_number: '',
+      contract_value: '',
+      contract_start_date: '',
+      contract_end_date: '',
+      contractor: '1',
+      consultant: '1',
+      project_location: [{
+        address: '',
+        rt: '1',
+        rw: '',
+        postal_code: '14320',
+        coordinate: '123, 123',
+      }]
   })
 
-  const onFinish = values => {
-      console.log('Success:', values);
-    };
+  const onFinish = async (values) => {
+  const payload = {
+      ...values,
+    } 
+    console.log(payload)
+    await addProject(payload)
+        .then(response => {
+          daily.value = response.data.data
+          console.log(daily.value)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+  };
 
     const onFinishFailed = errorInfo => {
       console.log('Failed:', errorInfo);

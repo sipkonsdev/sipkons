@@ -23,3 +23,13 @@ export const dailyList = (params) => {
     params,
   })
 }
+
+export const addProject = (payload) => {
+  return apiClient({
+    method: 'post',
+    url: '/api/projects',
+    data: {
+      data: payload
+    },
+  })
+}
