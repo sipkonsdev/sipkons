@@ -141,33 +141,6 @@
   import router from '../../router/index';
   import { addProject } from '../../services/api';
 
-  
-  // rw: '',
-  //     kontraktor: '',
-  //     email_kontraktor: '',
-  //     konsultan_pengawas: '',
-  //     email_konsultan_pengawas: '',
-//   {
-//     "data": {
-//         "package_name": "string",
-//         "contract_number": "string",
-//         "contract_value": "123456789",
-//         "contract_start_date": "2022-10-05",
-//         "contract_end_date": "2022-10-05",
-//         "contractor": 1,
-//         "consultant": 1,
-//         "project_location": [
-//             {
-//                 "id": "random string",
-//                 "address": "string",
-//                 "rt": "string",
-//                 "rw": "string",
-//                 "postal_code": "string",
-//                 "coordinate": "23123,12313"
-//             }
-//         ]
-//     }
-// }
   const formState = reactive({
       package_name: '',
       contract_number: '',
