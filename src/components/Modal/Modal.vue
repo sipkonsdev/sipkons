@@ -22,7 +22,8 @@
                   :rules="[{ required: true, message: 'Masukkan Tanggal!' }]"
                 >
                   <label for="date" class="block text-sm font-medium text-gray-700">Tanggal</label>
-                  <a-date-picker v-model:value="formState.date" class="w-full"/>
+                  <a-range-picker v-if="menu.includes('weekly')" class="w-full"/>
+                  <a-date-picker v-model:value="formState.date"  v-if="!menu.includes('weekly')" class="w-full"/>
                 </a-form-item>
               </div>
 
