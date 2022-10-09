@@ -32,8 +32,17 @@
                   :rules="[{ required: true, message: 'Masukkan Tanggal!' }]"
                 >
                   <label for="date" class="block text-sm font-medium text-gray-700">Tanggal</label>
-                  <a-range-picker v-model:value="formState.date" v-if="menu.includes('weekly')" class="w-full"/>
-                  <a-date-picker v-model:value="formState.date"  v-if="!menu.includes('weekly')" class="w-full"/>
+                  <a-date-picker v-model:value="formState.date" class="w-full"/>
+                </a-form-item>
+              </div>
+
+              <div v-if="menu.includes('weekly')"  class="col-span-6 sm:col-span-6">
+                <a-form-item
+                  name="end_date"
+                  :rules="[{ required: true, message: 'Masukkan Tanggal!' }]"
+                >
+                  <label for="end_date" class="block text-sm font-medium text-gray-700">Tanggal Akhir</label>
+                  <a-date-picker v-model:value="formState.end_date" class="w-full"/>
                 </a-form-item>
               </div>
 
@@ -79,6 +88,7 @@
     date: '',
     title: '',
     file: '',
+    end_date: '',
   })
 
   const handleChange = async(info) => {
@@ -98,18 +108,17 @@
   const onFinish = async (values) => {
     const payload = {
       data: {
-        date: props.menu[0] != 'notes' ? values.title : undefined,
+        date: props.menu[0] == 'notes' ? undefined : values.date,
         documents: document.value,
         project: route.query.id,
         title: props.menu[0] == 'meetings' ? values.title : undefined,
         message: props.menu[0] == 'notes' ? values.title : undefined,
+        start_date:  props.menu[0] == 'weekly' ? values.date : undefined,
+        end_date:  props.menu[0] == 'weekly' ? values.end_date : undefined,
       }
     } 
-    console.log(payload)
-    console.log(props.menu[0])
     await createDetailActivity(payload, props.menu[0])
       .then(response => {
-        console.log(response)
         notification.success({
           message: 'Berhasil Menambah data',
         })
