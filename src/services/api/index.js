@@ -17,6 +17,13 @@ export const projectList = (params) => {
   })
 }
 
+export const deleteProject = (id) => {
+  return apiClient({
+    method: 'delete',
+    url: `/api/projects/${id}`,
+  })
+}
+
 export const detailactivityList = (params, id, type) => {
   let url
   if (['daily', 'weekly'].includes(type)) {

@@ -14,9 +14,11 @@
 </template>
 
 <script setup>
-import { deleteDetailActivity } from '../../services/api';
+import { deleteDetailActivity, deleteProject } from '../../services/api';
 import { notification } from 'ant-design-vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute()
 const props = defineProps({
   showModalDelete: Boolean,
   menu: Array,
@@ -25,7 +27,20 @@ const props = defineProps({
 const emit = defineEmits(['handleModalDelete'])
 
 const handleDelete = async() => {
-  await deleteDetailActivity(props.menu[0], props.delId)
+  if (route.name == 'activity') {
+    await deleteProject(props.delId)
+      .then(response => {
+        notification.success({
+        message: 'Berhasil Menghapus data',
+      })
+      location.reload()
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+  if (route.name == 'detail') {
+    await deleteDetailActivity(props.menu[0], props.delId)
     .then(response => {
       notification.success({
         message: 'Berhasil Menghapus data',
@@ -36,6 +51,7 @@ const handleDelete = async() => {
     .catch(err => {
       console.error(err)
     })
+  }
 }
 </script>
 
