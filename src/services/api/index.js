@@ -17,10 +17,16 @@ export const projectList = (params) => {
   })
 }
 
-export const dailyList = (params, id) => {
+export const detailactivityList = (params, id, type) => {
+  let url
+  if (['daily', 'weekly'].includes(type)) {
+    url = `${type}-monitorings`
+  } else {
+    url = `${type}`
+  }
   return apiClient({
     method: 'get',
-    url: `/api/daily-monitorings?filters[project][id][$eq]=${id}`,
+    url: `/api/${url}?filters[project][id][$eq]=${id}`,
     params,
   })
 }
@@ -57,10 +63,16 @@ export const uploadFile = (payload) => {
   })
 }
 
-export const createDaily = (payload) => {
+export const createDetailActivity = (payload, type) => {
+  let url
+  if (['daily', 'weekly'].includes(type)) {
+    url = `${type}-monitorings`
+  } else {
+    url = `${type}`
+  }
   return apiClient({
     method: 'post',
-    url: '/api/daily-monitorings',
+    url: `/api/${url}`,
     data: payload
   })
 }

@@ -16,33 +16,34 @@
         <div class="overflow-hidden shadow sm:rounded-md">
           <div class="bg-white px-4 py-5 sm:p-6">
             <div class="grid grid-cols-6 gap-6">
-              <div class="col-span-6 sm:col-span-6">
+              <div v-if="menu.includes('meetings') || menu.includes('notes')" class="col-span-6 sm:col-span-6">
+                <a-form-item
+                  name="title"
+                  :rules="[{ required: true, message: 'Masukkan Judul rapat!' }]"
+                >
+                  <label for="title" class="block text-sm font-medium text-gray-700">Judul</label>
+                  <a-input v-model:value="formState.title" class="w-full"/>
+                </a-form-item>
+              </div>
+
+              <div v-if="!menu.includes('notes')"  class="col-span-6 sm:col-span-6">
                 <a-form-item
                   name="date"
                   :rules="[{ required: true, message: 'Masukkan Tanggal!' }]"
                 >
                   <label for="date" class="block text-sm font-medium text-gray-700">Tanggal</label>
-                  <a-range-picker v-if="menu.includes('weekly')" class="w-full"/>
+                  <a-range-picker v-model:value="formState.date" v-if="menu.includes('weekly')" class="w-full"/>
                   <a-date-picker v-model:value="formState.date"  v-if="!menu.includes('weekly')" class="w-full"/>
                 </a-form-item>
               </div>
 
               <div class="col-span-6 sm:col-span-6">
-                <input type="file" name="" id="" @change="handleChange">
                 <!-- <a-form-item
                   name="fileList"
                   :rules="[{ required: true, message: 'Upload Document!' }]"
-                >
-                  <a-upload
-                    name="file"
-                    @change="handleChange"
-                  >
-                    <a-button>
-                      <upload-outlined></upload-outlined>
-                      Upload Document
-                    </a-button>
-                  </a-upload>
-                </a-form-item> -->
+                > -->
+                  <input type="file" @change="handleChange">
+                <!-- </a-form-item> -->
               </div>
             </div>
           </div>
@@ -61,7 +62,7 @@
 <script setup>
   import { reactive, ref, computed } from 'vue';
   import router from '../../router/index';
-  import { addProject,  uploadFile, createDaily } from '../../services/api';
+  import { addProject,  uploadFile, createDetailActivity } from '../../services/api';
   import { UploadOutlined } from '@ant-design/icons-vue';
   import { useRoute } from 'vue-router';
   import { notification } from 'ant-design-vue';
@@ -76,6 +77,8 @@
   const document = ref('')
   const formState = reactive({
     date: '',
+    title: '',
+    file: '',
   })
 
   const handleChange = async(info) => {
@@ -92,27 +95,31 @@
     const fileList = ref([]);
 
 
-    const onFinish = async (values) => {
-      const payload = {
-        data: {
-          date: values.date,
-          documents: document.value,
-          project: route.query.id,
-        }
-        } 
-      console.log(payload)
-      await createDaily(payload)
-        .then(response => {
-          console.log(response)
+  const onFinish = async (values) => {
+    const payload = {
+      data: {
+        date: props.menu[0] != 'notes' ? values.title : undefined,
+        documents: document.value,
+        project: route.query.id,
+        title: props.menu[0] == 'meetings' ? values.title : undefined,
+        message: props.menu[0] == 'notes' ? values.title : undefined,
+      }
+    } 
+    console.log(payload)
+    console.log(props.menu[0])
+    await createDetailActivity(payload, props.menu[0])
+      .then(response => {
+        console.log(response)
         notification.success({
           message: 'Berhasil Menambah data',
         })
-          emit('handleModal')
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    };
+        emit('handleModal')
+        router.go()
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  };
 
     const onFinishFailed = errorInfo => {
       console.log('Failed:', errorInfo);
