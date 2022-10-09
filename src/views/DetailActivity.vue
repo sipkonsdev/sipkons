@@ -78,42 +78,38 @@
                     </td>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <div class="flex items-center mb-4">
+                        <a-radio-group v-model:value="item.attributes.approved_by_consultant" @change="handleRadio($event, item.id, 'consultant')">
+                          <a-radio :style="radioStyle" :value="true">Setuju</a-radio>
+                          <a-radio :style="radioStyle" :value="false">Tolak</a-radio>
+                        </a-radio-group>
+                        <!-- <div class="flex items-center mb-4">
                             <input :id="`radio-daily-konsultan-${item.id}`" type="radio" value="" :name="`radio-daily-konsultan-${item.id}`" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
                             <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ">Setuju</label>
                         </div>
                         <div class="flex items-center">
                             <input :id="`radio-daily-konsultan-${item.id}`" type="radio" value="" :name="`radio-daily-konsultan-${item.id}`" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
                             <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
-                        </div>
+                        </div> -->
                         <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
                         <a class="mt-2 font-medium text-blue-600">Catatan</a>
                       </div>
                     </td>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <div class="flex items-center mb-4">
-                            <input :id="`radio-daily-ksp-${item.id}`" type="radio" value="" :name="`radio-daily-ksp-${item.id}`" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
-                            <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ">Setuju</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input :id="`radio-daily-ksp-${item.id}`" type="radio" value="" :name="`radio-daily-ksp-${item.id}`" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
-                            <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
-                        </div>
+                        <a-radio-group v-model:value="item.attributes.approved_by_kasi" @change="handleRadio($event, item.id, 'kasi')">
+                          <a-radio :style="radioStyle" :value="true">Setuju</a-radio>
+                          <a-radio :style="radioStyle" :value="false">Tolak</a-radio>
+                        </a-radio-group>
                         <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
                         <a class="mt-2 font-medium text-blue-600">Catatan</a>
                       </div>
                     </td>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <div class="flex items-center mb-4">
-                            <input :id="`radio-daily-ksd-${item.id}`" type="radio" value="" :name="`radio-daily-ksd-${item.id}`" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
-                            <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ">Setuju</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input :id="`radio-daily-ksd-${item.id}`" type="radio" value="" :name="`radio-daily-ksd-${item.id}`" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
-                            <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
-                        </div>
+                        <a-radio-group v-model:value="item.attributes.approved_by_kasudin" @change="handleRadio($event, item.id, 'kasudin')">
+                          <a-radio :style="radioStyle" :value="true">Setuju</a-radio>
+                          <a-radio :style="radioStyle" :value="false">Tolak</a-radio>
+                        </a-radio-group>
                         <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
                         <a class="mt-2 font-medium text-blue-600">Catatan</a>
                       </div>
@@ -236,9 +232,9 @@
 </template>
 
 <script setup>
-  import { computed, onMounted, ref, watch } from 'vue'
+  import { computed, onMounted, ref, watch, reactive } from 'vue'
   import Maps from '../components/Maps/Maps.vue';
-  import { detailactivityList } from '../services/api';
+  import { detailactivityList, updateDetailActivity } from '../services/api';
   import Modal from '../components/Modal/Modal.vue';
   import { useRoute } from 'vue-router';
   import RecycleBin from '../assets/logo/RecycleBin.vue';
@@ -252,6 +248,12 @@
   const showModal = ref(false)
   const showModalDelete = ref(false)
   const delId = ref('')
+  const radioStyle = reactive({
+    display: 'flex',
+    height: '30px',
+    lineHeight: '30px',
+  });
+  const value = ref('')
 
   onMounted(() => {
     fetchData()
@@ -268,20 +270,6 @@
     await detailactivityList(params, route.query.id, menu.value[0])
       .then(response => {
         data.value = response.data.data
-      })
-      .catch(err => {
-        console.error(err)
-      })
-
-  } 
-  const fetchWeekly = async () => {
-    let params = {
-      populate: 'documents,projects'
-    } 
-    await dailyList(params, route.query.id)
-      .then(response => {
-        weekly.value = response.data.data
-        console.log(weekly.value)
       })
       .catch(err => {
         console.error(err)
@@ -316,6 +304,21 @@
     delId.value = id
     console.log(delId.value)
     showModalDelete.value = !showModalDelete.value
+  }
+
+  const handleRadio = async(e, id, role) => {
+    const payload = {
+      data: {
+        [`approved_by_${role}`]: e.target.value
+      }
+    }
+    await updateDetailActivity(menu.value[0], id, payload)
+      .then(response => {
+      location.reload()
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
 </script>
