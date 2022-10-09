@@ -17,6 +17,26 @@ export const projectList = (params) => {
   })
 }
 
+export const addProject = (payload) => {
+  return apiClient({
+    method: 'post',
+    url: '/api/projects',
+    data: {
+      data: payload
+    },
+  })
+}
+
+export const editProect = (payload) => {
+  return apiClient({
+    method: 'put',
+    url: '/api/projects/',
+    data: {
+      data: payload
+    },
+  })
+}
+
 export const deleteProject = (id) => {
   return apiClient({
     method: 'delete',
@@ -35,16 +55,6 @@ export const detailactivityList = (params, id, type) => {
     method: 'get',
     url: `/api/${url}?filters[project][id][$eq]=${id}`,
     params,
-  })
-}
-
-export const addProject = (payload) => {
-  return apiClient({
-    method: 'post',
-    url: '/api/projects',
-    data: {
-      data: payload
-    },
   })
 }
 
