@@ -27,7 +27,7 @@
                     <a href="javascript:;">Edit</a>
                   </a-menu-item>
                   <a-menu-item>
-                    <a href="javascript:;">Remove</a>
+                    <a @click="handleModalDelete(item.id)">Remove</a>
                   </a-menu-item>
                   <a-menu-item>
                     <a @click="() => $router.push({name: 'detail', query:{ id: item.id, coordinate: item.attributes.project_location[0].coordinate}})">Lihat Detail</a>
@@ -277,6 +277,12 @@
       </a-collapse-panel>
     </a-collapse>
     </div>
+    <ModalDelete 
+      :show-modal-delete="showModalDelete"
+      :menu="menu"
+      :del-id="delId"
+      @handleModalDelete="handleModalDelete"
+    />
   </div>
 </template>
 
@@ -285,10 +291,15 @@ import { onMounted, ref } from 'vue';
 import Maps from '../Maps/Maps.vue';
 import { useStore } from '../../store'
 import { projectList } from '../../services/api';
+import { notification } from 'ant-design-vue';
+import ModalDelete from '../Modal/ModalDelete.vue';
 
 const store = useStore()
 
 const dataList = ref({})
+const showModal = ref(false)
+const showModalDelete = ref(false)
+const delId = ref('')
 
 onMounted(() => {
   fetchListProject()
@@ -306,6 +317,12 @@ const fetchListProject = async () => {
       .catch(err => {
         console.error(err)
       })
+}
+
+const handleModalDelete = (id) => {
+  delId.value = id
+  console.log(delId.value)
+  showModalDelete.value = !showModalDelete.value
 }
 </script>
 
