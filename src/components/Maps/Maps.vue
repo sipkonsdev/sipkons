@@ -1,6 +1,7 @@
 <template>
   <div class="h-96">
-    <div id="map" class="h-full z-[1]"></div>
+    <div id="map" class="h-full z-[1]">
+    </div>
   </div>
 </template>
 
@@ -9,15 +10,23 @@
   import marker from '../../assets/mapMarker.svg'
   import leaflet from 'leaflet'
 
+  const props = defineProps({
+    pinPoint: String,
+  })
   let map
+  // map = leaflet.map('map').setView([0, 0], 13)
   onMounted(() =>{
-    map = leaflet.map('map').setView([0, 0], 13)
+    map = leaflet.map('map').setView([-6.2534396298273975, 106.82590121868093], 13)
     leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-    getGeoLocation()
+    if (props.pinPoint) {
+      setCoords(props.pinPoint)
+      getLocError()
+    } 
+    // getGeoLocation()
   })
   
   const coords = ref(null)
@@ -44,27 +53,36 @@
 
   const getGeoLocation = () => {
     fetchCoords.value = true
-    navigator.geolocation.getCurrentPosition(setCoords, getLocError)
+    // navigator.geolocation.getCurrentPosition(setCoords, getLocError)
   }
 
-  const setCoords = (pos) => {
+  const setCoords = (param) => {
     fetchCoords.value = null
-    initGeoLocation(pos.coords.latitude, pos.coords.longitude)
-    const setSessionCoords = {
-      lat: pos.coords.latitude,
-      lng: pos.coords.longitude,
-    }
-    sessionStorage.setItem('coords', JSON.stringify(setSessionCoords))
+    const coordinate = param.split(', ')
+    console.log('aa', coordinate[0])
+    initGeoLocation(coordinate[0], coordinate[1])
+    // const setSessionCoords = {
+    //   lat: pos.coords.latitude,
+    //   lng: pos.coords.longitude,
+    // }
+    // sessionStorage.setItem('coords', JSON.stringify(setSessionCoords))
 
-    coords.value = setSessionCoords
+    // coords.value = setSessionCoords
 
-    plotGeoLocation(pos.coords.latitude, pos.coords.longitude)
+    plotGeoLocation(coordinate[0], coordinate[1])
 
   } 
 
   const getLocError = (err) => {
     console.log(err)
   }
+
+  // map.on('click', function(e){
+  // var coord = e.latlng;
+  // var lat = coord.lat;
+  // var lng = coord.lng;
+  // console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+  // });
 </script>
 
 <style>
