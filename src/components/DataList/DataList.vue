@@ -30,7 +30,7 @@
                     <a href="javascript:;">Remove</a>
                   </a-menu-item>
                   <a-menu-item>
-                    <a @click="() => $router.push({name: 'detail'})">Lihat Detail</a>
+                    <a @click="() => $router.push({name: 'detail', query:{ id: item.id, coordinate: item.attributes.project_location[0].coordinate}})">Lihat Detail</a>
                   </a-menu-item>
                 </a-menu>
               </template>
@@ -42,23 +42,23 @@
           <dl>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Nama Proyek</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.package_name }}</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes?.package_name }}</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Lokasi</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.project_location[0].address }}</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes?.project_location[0]?.address }}</dd>
             </div>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">RW</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.project_location[0].rw }}</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes?.project_location[0]?.rw }}</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Kontraktor Pelaksana</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.contractor.data.attributes.fullname }}</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes?.contractor.data.attributes.fullname }}</dd>
             </div>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Konsultan Pengawas</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.consultant.data.attributes.fullname }}</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes?.consultant.data.attributes.fullname }}</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Progress Kegiatan</dt>
@@ -265,7 +265,9 @@
               <dt class="text-sm font-medium text-gray-500">Peta Lokasi</dt>
               <div>
                 <Maps 
-                :pinPoint="item.attributes.project_location[0].coordinate"/>
+                  :pinPoint="item.attributes.project_location[0].coordinate"
+                  :id="item.id"
+                />
               </div>
               
               <!-- <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">Billy</dd> -->
