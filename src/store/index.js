@@ -22,6 +22,9 @@ export const useStore = defineStore('state', () => {
       user: {},
     }
   )
+  const form = ref({
+    coordinate: '',
+  })
 
-  return { user }
+  return { user, form }
 })

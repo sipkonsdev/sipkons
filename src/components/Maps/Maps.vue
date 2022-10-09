@@ -1,6 +1,6 @@
 <template>
   <div class="h-96">
-    <div id="map" class="h-full z-[1]">
+    <div :id="`map${props.id}`" class="h-full z-[1]">
     </div>
   </div>
 </template>
@@ -9,9 +9,14 @@
   import { computed, ref, onMounted, onUnmounted, watch, reactive } from 'vue'
   import marker from '../../assets/mapMarker.svg'
   import leaflet from 'leaflet'
+  import { useStore } from '../../store'
+  import { useRoute } from 'vue-router';
 
+  const store = useStore()
+  const route = useRoute()
   const props = defineProps({
     pinPoint: String,
+    id: String,
   })
   const coordinate = ref()
   const customMarker = leaflet.icon({
@@ -23,15 +28,16 @@
   var markers;
   // map = leaflet.map('map').setView([0, 0], 13)
   onMounted(() =>{
-    map = leaflet.map('map').setView([-6.2534396298273975, 106.82590121868093], 13)
+    map = leaflet.map(`map${props.id}`).setView([-6.2534396298273975, 106.82590121868093], 13)
     map.on('click', handleClick)
     leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-    if (props.pinPoint) {
-      setCoords(props.pinPoint)
+    if (props.pinPoint || route.query.coordinate) {
+      var valueCoord = route.query.coordinate?.replace(',', ', ')
+      setCoords(props.pinPoint || valueCoord)
       getLocError()
     } 
     // getGeoLocation()
@@ -86,23 +92,18 @@
   }
 
   const handleClick = (e) => {
-   
-    if (markers) { // check
-        map.removeLayer(markers); // remove
+    if (!props.pinPoint && !route.query.coordinate) {
+      if (markers) { // check
+          map.removeLayer(markers); // remove
+      }
+      markers = new leaflet.Marker(e.latlng, { icon: customMarker }); // set
+      markers.addTo(map)
+      coordinate.value = e.latlng
+      store.form.coordinate = e.latlng
+      // plotGeoLocation(e.latlng.lat, e.latlng.lng)
     }
-    markers = new leaflet.Marker(e.latlng, { icon: customMarker }); // set
-    markers.addTo(map)
-    coordinate.value = e.latlng
-    // plotGeoLocation(e.latlng.lat, e.latlng.lng)
 
   }
-
-  // map.on('click', function(e){
-  // var coord = e.latlng;
-  // var lat = coord.lat;
-  // var lng = coord.lng;
-  // console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
-  // });
 </script>
 
 <style>

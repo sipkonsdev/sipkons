@@ -191,6 +191,9 @@
   import { notification } from 'ant-design-vue';
   import Marker from '../../assets/logo/Marker.vue'
   import ModalMaps from '../Modal/ModalMaps.vue'
+  import { useStore } from '../../store'
+
+  const store = useStore()
 
   const showModal = ref(false)
   const consultant_list = ref([])
@@ -237,7 +240,7 @@
           rt: values.rt,
           rw: values.rw,
           postal_code: values.postal_code,
-          coordinate:' -7.0023126691734685, 110.40797717540072',
+          coordinate: `${store.form.coordinate.lat}, ${store.form.coordinate.lng}`,
         }]
       } 
       
