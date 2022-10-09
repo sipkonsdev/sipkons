@@ -101,7 +101,7 @@
       if (markers) { // check
           map.removeLayer(markers); // remove
       }
-      markers = new leaflet.Marker(e.latlng, { icon: customMarker }); // set
+      markers = new leaflet.Marker(e.latlng); // set
       markers.addTo(map)
       coordinate.value = e.latlng
       store.form.coordinate = e.latlng
