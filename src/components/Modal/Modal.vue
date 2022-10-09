@@ -28,15 +28,13 @@
               </div>
 
               <div class="col-span-6 sm:col-span-6">
-                <a-form-item
+                <input type="file" name="" id="" @change="handleChange">
+                <!-- <a-form-item
                   name="fileList"
                   :rules="[{ required: true, message: 'Upload Document!' }]"
                 >
                   <a-upload
-                    v-model:file-list="fileList"
                     name="file"
-                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    :headers="headers"
                     @change="handleChange"
                   >
                     <a-button>
@@ -44,7 +42,7 @@
                       Upload Document
                     </a-button>
                   </a-upload>
-                </a-form-item>
+                </a-form-item> -->
               </div>
             </div>
           </div>
@@ -63,48 +61,57 @@
 <script setup>
   import { reactive, ref, computed } from 'vue';
   import router from '../../router/index';
-  import { addProject } from '../../services/api';
+  import { addProject,  uploadFile, createDaily } from '../../services/api';
   import { UploadOutlined } from '@ant-design/icons-vue';
+  import { useRoute } from 'vue-router';
+  import { notification } from 'ant-design-vue';
   
+  const route  = useRoute()
   const props = defineProps({
     showModal: Boolean,
     menu: Array,
   })
+  const emit = defineEmits(['handleModal'])
 
+  const document = ref('')
   const formState = reactive({
     date: '',
-    document: '',
-    project: '',
   })
 
-  const handleChange = info => {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    };
+  const handleChange = async(info) => {
+    await uploadFile(info.target.files[0])
+      .then(response => {
+        console.log(response.data[0].id)
+        document.value = response.data[0].id
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  };
 
     const fileList = ref([]);
 
 
     const onFinish = async (values) => {
-      // const payload = {
-      //     ...values,
-      //   } 
-      // console.log(payload)
-      // await addProject(payload)
-      //     .then(response => {
-      //       daily.value = response.data.data
-      //       console.log(daily.value)
-      //     })
-      //     .catch(err => {
-      //       console.error(err)
-      //     })
+      const payload = {
+        data: {
+          date: values.date,
+          documents: document.value,
+          project: route.query.id,
+        }
+        } 
+      console.log(payload)
+      await createDaily(payload)
+        .then(response => {
+          console.log(response)
+        notification.success({
+          message: 'Berhasil Menambah data',
+        })
+          emit('handleModal')
+        })
+        .catch(err => {
+          console.error(err)
+        })
     };
 
     const onFinishFailed = errorInfo => {

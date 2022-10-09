@@ -30,7 +30,7 @@
                     <a href="javascript:;">Remove</a>
                   </a-menu-item>
                   <a-menu-item>
-                    <a @click="() => $router.push({name: 'detail'})">Lihat Detail</a>
+                    <a @click="() => $router.push({name: 'detail', query:{ id: item.id}})">Lihat Detail</a>
                   </a-menu-item>
                 </a-menu>
               </template>

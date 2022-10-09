@@ -13,10 +13,18 @@
   const props = defineProps({
     pinPoint: String,
   })
+  const coordinate = ref()
+  const customMarker = leaflet.icon({
+      iconUrl: marker,
+      iconSize: [35,35],
+    })
+
   let map
+  var markers;
   // map = leaflet.map('map').setView([0, 0], 13)
   onMounted(() =>{
     map = leaflet.map('map').setView([-6.2534396298273975, 106.82590121868093], 13)
+    map.on('click', handleClick)
     leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
       maxZoom: 19,
@@ -75,6 +83,18 @@
 
   const getLocError = (err) => {
     console.log(err)
+  }
+
+  const handleClick = (e) => {
+   
+    if (markers) { // check
+        map.removeLayer(markers); // remove
+    }
+    markers = new leaflet.Marker(e.latlng, { icon: customMarker }); // set
+    markers.addTo(map)
+    coordinate.value = e.latlng
+    // plotGeoLocation(e.latlng.lat, e.latlng.lng)
+
   }
 
   // map.on('click', function(e){
