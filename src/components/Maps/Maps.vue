@@ -40,6 +40,11 @@
       setCoords(props.pinPoint || valueCoord)
       getLocError()
     } 
+    if (route.name == 'edit') {
+      var valueCoord = store.form.coordinate?.replace(',', ', ')
+      setCoords(valueCoord)
+      getLocError()
+    }
     // getGeoLocation()
   })
   
