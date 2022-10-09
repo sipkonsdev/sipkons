@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 70vh; overflow-y: scroll;">
     <div
       v-for="(item, index) in dataList"
       :key="index"
@@ -46,19 +46,19 @@
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Lokasi</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.address }}</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.project_location[0].address }}</dd>
             </div>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">RW</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.address }}</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.project_location[0].rw }}</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Kontraktor Pelaksana</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.contract_value }}</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.contractor.data.attributes.fullname }}</dd>
             </div>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Konsultan Pengawas</dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">Billy - dummy</dd>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ item.attributes.consultant.data.attributes.fullname }}</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Progress Kegiatan</dt>
@@ -264,8 +264,10 @@
             <div class="bg-gray-50 px-4 py-5 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Peta Lokasi</dt>
               <div>
-                <Maps />
+                <Maps 
+                :pinPoint="item.attributes.project_location[0].coordinate"/>
               </div>
+              
               <!-- <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">Billy</dd> -->
             </div>
           </dl>
@@ -292,7 +294,7 @@ onMounted(() => {
 
 const fetchListProject = async () => {
  let params = {
-    populate: 'daily_monitorings,weekly_monitorings,meetings,notes'
+    populate: 'daily_monitorings,weekly_monitorings,meetings,notes,project_location,contractor,consultant'
   } 
   await projectList(params)
       .then(response => {

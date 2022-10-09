@@ -22,23 +22,58 @@
                   </a-form-item>
                 </div>
 
-                <div class="col-span-6 sm:col-span-6">
+                <div class="col-span-6 sm:col-span-6 grid grid-cols-12 gap-1 items-center">
+                  <div class="col-span-11">
+                    <a-form-item
+                      name="address"
+                      :rules="[{ required: true, message: 'Masukkan Lokasi!' }]"
+                    >
+                      <label for="address" class="block text-sm font-medium text-gray-700">Lokasi</label>
+                      <a-input v-model:value="formState.address"/>
+                    </a-form-item>
+                  </div>
+                  <div class="col-span-1 flex justify-center items-center">
+                    <Marker class="mt-3 w-8 h-8 cursor-pointer" @click="handleModal"/>
+                  </div>
+                </div>
+
+                <!-- <div class="flex items-center justify-center col-span-6 sm:col-span-1">
                   <a-form-item
                     name="project_location"
                     :rules="[{ required: true, message: 'Masukkan Lokasi!' }]"
+                    class="cursor-pointer"
                   >
-                    <label for="project_location" class="block text-sm font-medium text-gray-700">Lokasi</label>
-                    <a-input v-model:value="formState.project_location.address"/>
+                    <Marker class="w-8 h-8"/>
+                  </a-form-item>
+                </div> -->
+
+                <div class="col-span-6 sm:col-span-6">
+                  <a-form-item
+                    name="rt"
+                    :rules="[{ required: true, message: 'Masukkan RT!' }]"
+                  >
+                    <label for="rw" class="block text-sm font-medium text-gray-700">RT</label>
+                    <a-input v-model:value="formState.rt"/>
                   </a-form-item>
                 </div>
 
                 <div class="col-span-6 sm:col-span-6">
                   <a-form-item
-                    name="project_location"
+                    name="rw"
                     :rules="[{ required: true, message: 'Masukkan RW!' }]"
                   >
-                    <label for="project_location" class="block text-sm font-medium text-gray-700">RW</label>
-                    <a-input v-model:value="formState.project_location.rw"/>
+                    <label for="rw" class="block text-sm font-medium text-gray-700">RW</label>
+                    <a-input v-model:value="formState.rw"/>
+                  </a-form-item>
+                </div>
+
+                <div class="col-span-6 sm:col-span-6">
+                  <a-form-item
+                    name="postal_code"
+                    :rules="[{ required: true, message: 'Masukkan Kode Pos!' }]"
+                  >
+                    <label for="rw" class="block text-sm font-medium text-gray-700">Kode Pos</label>
+                    <a-input v-model:value="formState.postal_code"/>
                   </a-form-item>
                 </div>
 
@@ -48,7 +83,11 @@
                     :rules="[{ required: true, message: 'Masukkan Kontraktor!' }]"
                   >
                     <label for="contractor" class="block text-sm font-medium text-gray-700">Kontraktor</label>
-                    <a-input v-model:value="formState.contractor"/>
+                    <a-select v-model:value="formState.contractor" v-for="(item, index) in contractor_list" :key="index" option-filter-prop="fullname">
+                      <a-select-option :value="item.id" :label="item.fullname">
+                        {{ item.fullname }}
+                      </a-select-option>
+                    </a-select>
                   </a-form-item>
                 </div>
 
@@ -68,7 +107,11 @@
                     :rules="[{ required: true, message: 'Masukkan Konsultan Pengawas!' }]"
                   >
                     <label for="consultant" class="block text-sm font-medium text-gray-700">Konsultan Pengawas</label>
-                    <a-input v-model:value="formState.consultant"/>
+                    <a-select v-model:value="formState.consultant" v-for="(item, index) in consultant_list" :key="index" option-filter-prop="fullname">
+                      <a-select-option :value="item.id" :label="item.fullname">
+                        {{ item.fullname }}
+                      </a-select-option>
+                    </a-select>
                   </a-form-item>
                 </div>
 
@@ -125,7 +168,7 @@
             </div>
             <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
               <a-form-item>
-                <button class="inline-flex justify-center rounded-md border border-transparent bg-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mr-3" @click="toBackPage">Batal</button>
+                <a class="inline-flex justify-center rounded-md border border-transparent bg-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mr-3" @click="toBackPage">Batal</a>
                 <button html-type="submit" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
               </a-form-item>
             </div>
@@ -133,13 +176,25 @@
         </a-form>
       </div>
     </div>
+
+    <ModalMaps 
+      :show-modal="showModal"
+      @handleModal="handleModal"
+    />
   </div>
 </template>
 
 <script setup>
-  import { reactive } from 'vue';
+  import { onMounted, reactive, ref } from 'vue';
   import router from '../../router/index';
-  import { addProject } from '../../services/api';
+  import { addProject, userList } from '../../services/api';
+  import { notification } from 'ant-design-vue';
+  import Marker from '../../assets/logo/Marker.vue'
+  import ModalMaps from '../Modal/ModalMaps.vue'
+
+  const showModal = ref(false)
+  const consultant_list = ref([])
+  const contractor_list = ref([])
 
   const formState = reactive({
       package_name: '',
@@ -147,26 +202,54 @@
       contract_value: '',
       contract_start_date: '',
       contract_end_date: '',
-      contractor: '1',
-      consultant: '1',
-      project_location: [{
-        address: '',
-        rt: '1',
-        rw: '',
-        postal_code: '14320',
-        coordinate: '123, 123',
-      }]
+      contractor: '',
+      consultant: '',
+      address: '',
+      rt: '',
+      rw: '',
+      postal_code: '',
+      coordinate: '-7.0023126691734685, 110.40797717540072',
+      // project_location: [{
+      //   address: '',
+      //   rt: '',
+      //   rw: '',
+      //   postal_code: '',
+      //   coordinate: '-6.93431146580587, 107.60510031218733',
+      // }]
+  })
+
+  onMounted(() => {
+    fetchConsultant()
+    fetchContractor()
   })
 
   const onFinish = async (values) => {
-  const payload = {
-      ...values,
-    } 
+    const payload = {
+        package_name: values.package_name,
+        contract_number: values.contract_number,
+        contract_value: values.contract_value,
+        contract_start_date: values.contract_start_date,
+        contract_end_date: values.contract_end_date,
+        contractor: values.contractor,
+        consultant: values.consultant,
+        project_location: [{
+          address: values.address,
+          rt: values.rt,
+          rw: values.rw,
+          postal_code: values.postal_code,
+          coordinate:' -7.0023126691734685, 110.40797717540072',
+        }]
+      } 
+      
     console.log(payload)
     await addProject(payload)
         .then(response => {
-          daily.value = response.data.data
-          console.log(daily.value)
+            notification.success({
+              message: 'Data Berhasil Ditambahkan',
+            })
+          router.push({
+            name: 'activity'
+          })
         })
         .catch(err => {
           console.error(err)
@@ -184,6 +267,37 @@
       }
     )
   }
+
+  const handleModal = () => {
+    showModal.value = !showModal.value
+  }
+
+  const fetchConsultant = async () => {
+  let params = {
+      populate: 'role'
+    } 
+    await userList(params, 'konsultan_pengawas')
+        .then(response => {
+          consultant_list.value = response.data
+          console.log(consultant_list.value)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+  }
+  const fetchContractor = async () => {
+  let params = {
+      populate: 'role'
+    } 
+    await userList(params, 'kontraktor_pelaksana')
+        .then(response => {
+          contractor_list.value = response.data
+        })
+        .catch(err => {
+          console.error(err)
+        })
+  }
+  
 </script>
 
 <style lang="scss">

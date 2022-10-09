@@ -33,3 +33,10 @@ export const addProject = (payload) => {
     },
   })
 }
+
+export const userList = (params, type) => {
+  return apiClient({
+    method: 'get',
+    url: `/api/users?populate=role&filters[role][type][$eq]=${type}`,
+  })
+}

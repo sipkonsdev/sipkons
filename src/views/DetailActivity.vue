@@ -291,10 +291,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+  import { computed, onMounted, ref } from 'vue'
   import Maps from '../components/Maps/Maps.vue';
   import { dailyList } from '../services/api';
-import Modal from '../components/Modal/Modal.vue';
+  import Modal from '../components/Modal/Modal.vue';
 
   const daily = ref([])
   const url = import.meta.env.VITE_API_URL
