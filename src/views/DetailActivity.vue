@@ -295,6 +295,9 @@
   import Maps from '../components/Maps/Maps.vue';
   import { dailyList } from '../services/api';
   import Modal from '../components/Modal/Modal.vue';
+  import { useRoute } from 'vue-router';
+
+  const route = useRoute()
 
   const daily = ref([])
   const url = import.meta.env.VITE_API_URL
@@ -306,9 +309,9 @@
 
   const fetchDaily = async () => {
  let params = {
-    populate: 'documents'
+    populate: 'documents,projects'
   } 
-  await dailyList(params)
+  await dailyList(params, route.query.id)
       .then(response => {
         daily.value = response.data.data
         console.log(daily.value)

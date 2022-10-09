@@ -17,10 +17,10 @@ export const projectList = (params) => {
   })
 }
 
-export const dailyList = (params) => {
+export const dailyList = (params, id) => {
   return apiClient({
     method: 'get',
-    url: '/api/daily-monitorings',
+    url: `/api/daily-monitorings?filters[project][id][$eq]=${id}`,
     params,
   })
 }
