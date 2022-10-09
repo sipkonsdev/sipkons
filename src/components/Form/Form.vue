@@ -83,8 +83,8 @@
                     :rules="[{ required: true, message: 'Masukkan Kontraktor!' }]"
                   >
                     <label for="contractor" class="block text-sm font-medium text-gray-700">Kontraktor</label>
-                    <a-select v-model:value="formState.contractor" v-for="(item, index) in contractor_list" :key="index" option-filter-prop="fullname">
-                      <a-select-option :value="item.id" :label="item.fullname">
+                    <a-select v-model:value="formState.contractor"  option-filter-prop="fullname">
+                      <a-select-option v-for="(item, index) in contractor_list" :key="index" :value="item.id" :label="item.fullname">
                         {{ item.fullname }}
                       </a-select-option>
                     </a-select>
@@ -107,8 +107,8 @@
                     :rules="[{ required: true, message: 'Masukkan Konsultan Pengawas!' }]"
                   >
                     <label for="consultant" class="block text-sm font-medium text-gray-700">Konsultan Pengawas</label>
-                    <a-select v-model:value="formState.consultant" v-for="(item, index) in consultant_list" :key="index" option-filter-prop="fullname">
-                      <a-select-option :value="item.id" :label="item.fullname">
+                    <a-select v-model:value="formState.consultant" option-filter-prop="fullname">
+                      <a-select-option v-for="(item, index) in consultant_list" :key="index" :value="item.id" :label="item.fullname">
                         {{ item.fullname }}
                       </a-select-option>
                     </a-select>
@@ -224,6 +224,7 @@
   onMounted(() => {
     fetchConsultant()
     fetchContractor()
+    fetchData()
   })
 
   const onFinish = async (values) => {
@@ -299,6 +300,9 @@
         .catch(err => {
           console.error(err)
         })
+  }
+  const fetchData = () => {
+
   }
   
 </script>

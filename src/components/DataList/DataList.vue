@@ -24,7 +24,7 @@
               <template #overlay>
                 <a-menu>
                   <a-menu-item>
-                    <a href="javascript:;">Edit</a>
+                    <a @click="() => $router.push({name: 'edit', query:{ id: item.id}})">Edit</a>
                   </a-menu-item>
                   <a-menu-item>
                     <a @click="handleModalDelete(item.id)">Remove</a>
