@@ -76,3 +76,16 @@ export const createDetailActivity = (payload, type) => {
     data: payload
   })
 }
+
+export const deleteDetailActivity = (type, id) => {
+  let url
+  if (['daily', 'weekly'].includes(type)) {
+    url = `${type}-monitorings`
+  } else {
+    url = `${type}`
+  }
+  return apiClient({
+    method: 'delete',
+    url: `/api/${url}/${id}`,
+  })
+}

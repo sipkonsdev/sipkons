@@ -59,12 +59,15 @@
                     <th scope="col" class="py-3 px-6">
                         Kepala Suku Dinas
                     </th>
+                    <th scope="col" class="py-3 px-6">
+                      Action
+                    </th>
                 </tr>
             </thead>
-            <tbody v-for="(item) in data" :key="item.id">
+            <tbody v-for="(item) in data" :key="item.id" class="text-xs">
                 <tr class="bg-white border-b">
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
-                        {{ item.attributes.date }}
+                        {{ menu.includes('weekly') ? `${item.attributes.start_date} s.d  ${item.attributes.end_date}` : item.attributes.date }}
                         <!-- :href="item.attributes.documents?.data?.attributes?.url" -->
                     </th>
                     <td class="py-4 px-6">
@@ -115,6 +118,9 @@
                         <a class="mt-2 font-medium text-blue-600">Catatan</a>
                       </div>
                     </td>
+                    <td class="py-4 px-6">
+                      <RecycleBin class="cursor-pointer w-15 h-15" @click="handleModalDelete(item.id)"/>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -136,6 +142,9 @@
                     <th scope="col" class="py-3 px-6">
                         Berkas
                     </th>
+                    <th scope="col" class="py-3 px-6">
+                      Action
+                    </th>
                 </tr>
             </thead>
             <tbody v-for="(item) in data" :key="item.id" class="text-center text-xs">
@@ -156,6 +165,9 @@
                         <a :href="`${url+item.attributes.documents?.data?.attributes?.url}`" class="mt-2 font-medium text-blue-600">{{ item.attributes.documents?.data?.attributes?.name }}</a>
                       </div>
                     </td>
+                    <td class="py-4 px-6">
+                      <RecycleBin class="cursor-pointer w-12 h-12" @click="handleModalDelete(item.id)"/>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -174,6 +186,9 @@
                     <th scope="col" class="py-3 px-6">
                         Berkas
                     </th>
+                    <th scope="col" class="py-3 px-6">
+                      Action
+                    </th>
                 </tr>
             </thead>
             <tbody v-for="(item) in data" :key="item.id" class="text-center text-xs">
@@ -187,8 +202,11 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <a href="#" class="font-medium text-blue-600">Upload</a>
-                        <a :href="`${url+item.attributes.documents?.data?.attributes?.url}`" class="mt-2 font-medium text-blue-600">{{ item.attributes.documents?.data?.attributes?.name }}</a>
+                        <a :href="`${url+item.attributes.documents?.data[0]?.attributes?.url}`" class="mt-2 font-medium text-blue-600">{{ item.attributes.documents?.data[0]?.attributes?.name }}</a>
                       </div>
+                    </td>
+                    <td class="py-4 px-6">
+                      <RecycleBin class="cursor-pointer w-12 h-12" @click="handleModalDelete(item.id)"/>
                     </td>
                 </tr>
             </tbody>
@@ -204,9 +222,15 @@
     </div>
 
     <Modal 
-    :show-modal="showModal"
-    :menu="menu"
-    @handleModal="handleModal"
+      :show-modal="showModal"
+      :menu="menu"
+      @handleModal="handleModal"
+    />
+    <ModalDelete 
+      :show-modal-delete="showModalDelete"
+      :menu="menu"
+      :del-id="delId"
+      @handleModalDelete="handleModalDelete"
     />
   </div>
 </template>
@@ -217,6 +241,8 @@
   import { detailactivityList } from '../services/api';
   import Modal from '../components/Modal/Modal.vue';
   import { useRoute } from 'vue-router';
+  import RecycleBin from '../assets/logo/RecycleBin.vue';
+  import ModalDelete from '../components/Modal/ModalDelete.vue'
 
   const route = useRoute()
   const menu = ref(['daily'])
@@ -224,6 +250,8 @@
   const weekly = ref([])
   const url = import.meta.env.VITE_API_URL
   const showModal = ref(false)
+  const showModalDelete = ref(false)
+  const delId = ref('')
 
   onMounted(() => {
     fetchData()
@@ -240,7 +268,6 @@
     await detailactivityList(params, route.query.id, menu.value[0])
       .then(response => {
         data.value = response.data.data
-        console.log(daily.value)
       })
       .catch(err => {
         console.error(err)
@@ -283,6 +310,12 @@
 
   const handleModal = () => {
     showModal.value = !showModal.value
+  }
+
+  const handleModalDelete = (id) => {
+    delId.value = id
+    console.log(delId.value)
+    showModalDelete.value = !showModalDelete.value
   }
 
 </script>
