@@ -187,17 +187,21 @@
 <script setup>
   import { onMounted, reactive, ref } from 'vue';
   import router from '../../router/index';
-  import { addProject, userList } from '../../services/api';
+  import { addProject, userList, projectList, editProject } from '../../services/api';
   import { notification } from 'ant-design-vue';
   import Marker from '../../assets/logo/Marker.vue'
   import ModalMaps from '../Modal/ModalMaps.vue'
   import { useStore } from '../../store'
+  import { useRoute } from 'vue-router';
+  import moment from 'moment'
 
   const store = useStore()
+  const route = useRoute()
 
   const showModal = ref(false)
   const consultant_list = ref([])
   const contractor_list = ref([])
+  var dataList = {}
 
   const formState = reactive({
       package_name: '',
@@ -246,18 +250,34 @@
       } 
       
     console.log(payload)
-    await addProject(payload)
-        .then(response => {
-            notification.success({
-              message: 'Data Berhasil Ditambahkan',
+    if (route.name == 'add') {
+      await addProject(payload)
+          .then(response => {
+              notification.success({
+                message: 'Data Berhasil Ditambahkan',
+              })
+            router.push({
+              name: 'activity'
             })
-          router.push({
-            name: 'activity'
           })
-        })
-        .catch(err => {
-          console.error(err)
-        })
+          .catch(err => {
+            console.error(err)
+          })
+    } else {
+      await editProject(payload, route.query.id)
+          .then(response => {
+              notification.success({
+                message: 'Data Berhasil Diedit',
+              })
+            router.push({
+              name: 'activity'
+            })
+          })
+          .catch(err => {
+            console.error(err)
+          })
+
+    }
   };
 
     const onFinishFailed = errorInfo => {
@@ -301,9 +321,34 @@
           console.error(err)
         })
   }
-  const fetchData = () => {
+  const fetchData = async() => {
+ let params = {
+    populate: 'daily_monitorings,weekly_monitorings,meetings,notes,project_location,contractor,consultant'
+  } 
+  await projectList(params, route.query.id)
+    .then(response => {
+      dataList = response.data.data[0]
+      formState.package_name = dataList.attributes.package_name
+      formState.address = dataList.attributes.project_location[0].address
+      formState.rt = dataList.attributes.project_location[0].rt
+      formState.rw = dataList.attributes.project_location[0].rw
+      formState.postal_code = dataList.attributes.project_location[0].postal_code
+      formState.contractor = dataList.attributes.contractor.data.id
+      formState.consultant = dataList.attributes.consultant.data.id
+      formState.contract_number = dataList.attributes.contract_number
+      formState.contract_value = dataList.attributes.contract_value
+      formState.contract_start_date = moment(dataList.attributes.contract_start_date)
+      formState.contract_end_date = moment(dataList.attributes.contract_end_date)
+      store.form.coordinate = dataList.attributes.project_location[0].coordinate
+      
+      
+      console.log(dataList.attributes)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+}
 
-  }
   
 </script>
 

@@ -27,10 +27,10 @@ export const addProject = (payload) => {
   })
 }
 
-export const editProect = (payload) => {
+export const editProject = (payload, id) => {
   return apiClient({
     method: 'put',
-    url: '/api/projects/',
+    url: `/api/projects/${id}`,
     data: {
       data: payload
     },
