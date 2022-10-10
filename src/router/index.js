@@ -8,6 +8,9 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: Home,
+      meta: {
+        key: 'home',
+      }
     },
     {
       path: "/signup",
@@ -16,6 +19,9 @@ const router = createRouter({
     },
     {
       path: "/activity",
+      meta: {
+        key: 'activity',
+      },
       children: [
         {
           path: "/activity",
