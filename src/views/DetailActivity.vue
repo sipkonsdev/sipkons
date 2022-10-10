@@ -72,7 +72,7 @@
                     </th>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <a class="font-medium text-blue-600 ">Upload</a>
+                        <a class="font-medium text-blue-600" @click="handleReupload(item.id)">Upload</a>
                         <a :href="`${url+item.attributes.documents?.data?.attributes?.url}`" class="mt-2 font-medium text-blue-600">{{ item.attributes.documents?.data?.attributes?.name }}</a>
                       </div>
                     </td>
@@ -220,6 +220,8 @@
     <Modal 
       :show-modal="showModal"
       :menu="menu"
+      :reupload="reupload"
+      :update-id="updateId"
       @handleModal="handleModal"
     />
     <ModalDelete 
@@ -248,6 +250,8 @@
   const showModal = ref(false)
   const showModalDelete = ref(false)
   const delId = ref('')
+  const updateId = ref('')
+  const reupload = ref(false)
   const radioStyle = reactive({
     display: 'flex',
     height: '30px',
@@ -298,6 +302,13 @@
 
   const handleModal = () => {
     showModal.value = !showModal.value
+    reupload.value = false
+  }
+  
+  const handleReupload = (id) => {
+    showModal.value = !showModal.value
+    reupload.value = true
+    updateId.value = id
   }
 
   const handleModalDelete = (id) => {

@@ -228,7 +228,9 @@
   onMounted(() => {
     fetchConsultant()
     fetchContractor()
-    fetchData()
+    if (route.name == 'edit') {
+      fetchData()
+    }
   })
 
   const onFinish = async (values) => {

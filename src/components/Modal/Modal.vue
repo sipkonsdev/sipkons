@@ -5,7 +5,7 @@
     @cancel="$emit('handleModal')"
   >
   <div>
-    <p class="text-lg text-center">Tambah {{ captionButton }}</p>
+    <p class="text-lg text-center">{{ reupload ? 'Reupload Berkas' : `Tambah ${captionButton}` }}</p>
       <a-form
         :model="formState"
         name="basic"
@@ -26,7 +26,7 @@
                 </a-form-item>
               </div>
 
-              <div v-if="!menu.includes('notes')"  class="col-span-6 sm:col-span-6">
+              <div v-if="!menu.includes('notes') && !reupload"  class="col-span-6 sm:col-span-6">
                 <a-form-item
                   name="date"
                   :rules="[{ required: true, message: 'Masukkan Tanggal!' }]"
@@ -71,7 +71,7 @@
 <script setup>
   import { reactive, ref, computed } from 'vue';
   import router from '../../router/index';
-  import { addProject,  uploadFile, createDetailActivity } from '../../services/api';
+  import { addProject,  uploadFile, createDetailActivity, updateDetailActivity } from '../../services/api';
   import { UploadOutlined } from '@ant-design/icons-vue';
   import { useRoute } from 'vue-router';
   import { notification } from 'ant-design-vue';
@@ -80,6 +80,8 @@
   const props = defineProps({
     showModal: Boolean,
     menu: Array,
+    reupload: Boolean,
+    updateId: String,
   })
   const emit = defineEmits(['handleModal'])
 
@@ -106,28 +108,48 @@
 
 
   const onFinish = async (values) => {
-    const payload = {
-      data: {
-        date: props.menu[0] == 'notes' ? undefined : values.date,
-        documents: document.value,
-        project: route.query.id,
-        title: props.menu[0] == 'meetings' ? values.title : undefined,
-        message: props.menu[0] == 'notes' ? values.title : undefined,
-        start_date:  props.menu[0] == 'weekly' ? values.date : undefined,
-        end_date:  props.menu[0] == 'weekly' ? values.end_date : undefined,
+    if (props.reupload) {
+      const payload = {
+        data: {
+          document: document.value
+        }
       }
-    } 
-    await createDetailActivity(payload, props.menu[0])
-      .then(response => {
-        notification.success({
-          message: 'Berhasil Menambah data',
+      await updateDetailActivity(props.menu[0], props.updateId, payload)
+        .then(response => {
+          notification.success({
+            message: 'Berhasil Reupload berkas',
+          })
+          emit('handleModal')
+          router.go()
         })
-        emit('handleModal')
-        router.go()
-      })
-      .catch(err => {
-        console.error(err)
-      })
+        .catch(err => {
+          console.error(err)
+        })
+
+    } else {
+      const payload = {
+        data: {
+          date: props.menu[0] == 'notes' ? undefined : values.date,
+          documents: document.value,
+          project: route.query.id,
+          title: props.menu[0] == 'meetings' ? values.title : undefined,
+          message: props.menu[0] == 'notes' ? values.title : undefined,
+          start_date:  props.menu[0] == 'weekly' ? values.date : undefined,
+          end_date:  props.menu[0] == 'weekly' ? values.end_date : undefined,
+        }
+      } 
+      await createDetailActivity(payload, props.menu[0])
+        .then(response => {
+          notification.success({
+            message: 'Berhasil Menambah data',
+          })
+          emit('handleModal')
+          router.go()
+        })
+        .catch(err => {
+          console.error(err)
+        })
+      }
   };
 
     const onFinishFailed = errorInfo => {
