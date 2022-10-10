@@ -163,7 +163,7 @@
     if (props.menu.includes('weekly')) {
       return 'Pengawasan Mingguan'
     }
-    if (props.menu.includes('meeting')) {
+    if (props.menu.includes('meetings')) {
       return 'Undangan Rapat'
     }
     if (props.menu.includes('notes')) {
