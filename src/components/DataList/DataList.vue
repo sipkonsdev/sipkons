@@ -311,7 +311,7 @@ const fetchListProject = async () => {
   } 
   await projectList(params)
       .then(response => {
-        dataList.value = response.data.data
+        dataList.value = response.data
         console.log(dataList.value)
       })
       .catch(err => {
