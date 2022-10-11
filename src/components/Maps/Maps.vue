@@ -41,7 +41,7 @@
       getLocError()
     } 
     if (route.name == 'edit') {
-      var valueCoord = store.form.coordinate?.replace(',', ', ')
+      var valueCoord = store.form.coordinate
       setCoords(valueCoord)
       getLocError()
     }
@@ -104,7 +104,7 @@
       markers = new leaflet.Marker(e.latlng); // set
       markers.addTo(map)
       coordinate.value = e.latlng
-      store.form.coordinate = e.latlng
+      store.form.coordinate = `${e.latlng.lat}, ${e.latlng.lng}`
       // plotGeoLocation(e.latlng.lat, e.latlng.lng)
     }
 

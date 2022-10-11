@@ -17,6 +17,15 @@ export const projectList = (params) => {
   })
 }
 
+export const getProject = (params, id) => {
+  return apiClient({
+    method: 'get',
+    url: `/api/projects/${id}`,
+    params,
+  })
+}
+
+
 export const addProject = (payload) => {
   return apiClient({
     method: 'post',
