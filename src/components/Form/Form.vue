@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-6 grid grid-cols-12 gap-1 items-center">
-                  <div class="col-span-11">
+                  <div class="col-span-10">
                     <a-form-item
                       name="address"
                       :rules="[{ required: true, message: 'Masukkan Lokasi!' }]"
@@ -32,8 +32,17 @@
                       <a-input v-model:value="formState.address"/>
                     </a-form-item>
                   </div>
-                  <div class="col-span-1 flex justify-center items-center">
-                    <Marker class="mt-3 w-8 h-8 cursor-pointer" @click="handleModal"/>
+                  <div class="col-span-2 flex flex-col justify-center items-center">
+                    <a-form-item 
+                      name="coordinate"
+                      :rules="[{ required: true, message: 'Masukkan Pinpoint!' }]"
+                    >
+                      <a-input hidden v-model:value="formState.coordinate"/>
+                      <Marker class="mt-3 w-8 h-8 cursor-pointer rounded" @click="handleModal"/>
+                    </a-form-item>
+                    <!-- <p class="text-xs text-red-600">Pinpoint Maps!</p> -->
+                  </div>
+                  <div class="col-span-12 flex justify-end">
                   </div>
                 </div>
 
@@ -185,9 +194,9 @@
 </template>
 
 <script setup>
-  import { onMounted, reactive, ref } from 'vue';
+  import { onMounted, reactive, ref, watch } from 'vue';
   import router from '../../router/index';
-  import { addProject, userList, projectList, editProject } from '../../services/api';
+  import { addProject, userList, projectList, editProject, getProject } from '../../services/api';
   import { notification } from 'ant-design-vue';
   import Marker from '../../assets/logo/Marker.vue'
   import ModalMaps from '../Modal/ModalMaps.vue'
@@ -215,7 +224,7 @@
       rt: '',
       rw: '',
       postal_code: '',
-      coordinate: '-7.0023126691734685, 110.40797717540072',
+      coordinate: '',
       // project_location: [{
       //   address: '',
       //   rt: '',
@@ -224,6 +233,11 @@
       //   coordinate: '-6.93431146580587, 107.60510031218733',
       // }]
   })
+
+  watch(()=> store.form.coordinate, function() {
+      console.log('value changes detected');
+      formState.coordinate = store.form.coordinate
+   });
 
   onMounted(() => {
     fetchConsultant()
@@ -247,10 +261,9 @@
           rt: values.rt,
           rw: values.rw,
           postal_code: values.postal_code,
-          coordinate: `${store.form.coordinate.lat}, ${store.form.coordinate.lng}`,
+          coordinate: formState.coordinate,
         }]
       } 
-      
     console.log(payload)
     if (route.name == 'add') {
       await addProject(payload)
@@ -327,9 +340,9 @@
  let params = {
     populate: 'daily_monitorings,weekly_monitorings,meetings,notes,project_location,contractor,consultant'
   } 
-  await projectList(params, route.query.id)
+  await getProject(params, route.query.id)
     .then(response => {
-      dataList = response.data.data[0]
+      dataList = response.data.data
       formState.package_name = dataList.attributes.package_name
       formState.address = dataList.attributes.project_location[0].address
       formState.rt = dataList.attributes.project_location[0].rt
