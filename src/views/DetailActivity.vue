@@ -40,7 +40,7 @@
       </a-menu-item>
     </a-menu>
 
-    <div v-if="menu.includes('daily') || menu.includes('weekly')" class="mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
+    <div v-if="menu.includes('daily') || menu.includes('weekly')" class="mt-10 overflow-x-auto max-h-96 overflow-y-auto relative shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                 <tr>
@@ -122,7 +122,7 @@
         </table>
     </div>
 
-    <div v-if="menu.includes('meetings')" class="mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
+    <div v-if="menu.includes('meetings')" class="mt-10 overflow-x-auto max-h-96 overflow-y-auto relative shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 text-center uppercase bg-gray-50 ">
                 <tr>
@@ -169,7 +169,7 @@
         </table>
     </div>
 
-    <div v-if="menu.includes('notes')" class="mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
+    <div v-if="menu.includes('notes')" class="mt-10 overflow-x-auto max-h-96 overflow-y-auto relative shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 text-center uppercase bg-gray-50 ">
                 <tr>

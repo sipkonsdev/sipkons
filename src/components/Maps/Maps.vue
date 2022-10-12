@@ -37,11 +37,11 @@
     }).addTo(map);
     if (props.pinPoint || route.query.coordinate) {
       var valueCoord = route.query.coordinate?.replace(',', ', ')
-      setCoords(props.pinPoint || valueCoord)
+      setCoords('0, 0')
       getLocError()
     } 
     if (route.name == 'edit') {
-      var valueCoord = store.form.coordinate
+      var valueCoord = store.form.coordinate ||
       setCoords(valueCoord)
       getLocError()
     }

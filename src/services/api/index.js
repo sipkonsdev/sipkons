@@ -62,7 +62,7 @@ export const detailactivityList = (params, id, type) => {
   }
   return apiClient({
     method: 'get',
-    url: `/api/${url}?filters[project][id][$eq]=${id}`,
+    url: `/api/${url}?filters[project][id][$eq]=${id}&pagination[pageSize]=100`,
     params,
   })
 }
