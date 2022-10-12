@@ -354,7 +354,8 @@
       formState.contract_value = dataList.attributes.contract_value
       formState.contract_start_date = moment(dataList.attributes.contract_start_date)
       formState.contract_end_date = moment(dataList.attributes.contract_end_date)
-      store.form.coordinate = dataList.attributes.project_location[0].coordinate
+      formState.coordinate = dataList.attributes.project_location[0].coordinate
+      store.form.coordinate = formState.coordinate
       
       
       console.log(dataList.attributes)

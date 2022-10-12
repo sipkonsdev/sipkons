@@ -22,7 +22,7 @@ export const getMe = (payload) => {
 export const projectList = (params) => {
   return apiClient({
     method: 'get',
-    url: '/api/projects',
+    url: '/api/projects?sort[id]=asc',
     params,
   })
 }
