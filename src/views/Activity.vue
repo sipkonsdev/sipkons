@@ -26,13 +26,14 @@
   import { useStore } from '../store/index'
   import { projectList } from '../services/api'; 
   import acces from '../acces'
+  import debounce from 'lodash/debounce'
 
   const store = useStore()
   const dataList = ref([])
   const search = ref('')
 
   watch(() => search.value, () => {
-    fetchListProject()
+      fetchListProject()
   })
   onMounted(() => {
     fetchListProject()
@@ -56,9 +57,9 @@
       name: 'add',
     })
   }
-  const handleSearch = (e) => {
+  const handleSearch = debounce((e) => {
     search.value = e.target.value
-  }
+  }, 500)
 </script>
 
 <style>
