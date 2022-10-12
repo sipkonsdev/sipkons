@@ -9,6 +9,16 @@ export const login = (payload) => {
   })
 }
 
+export const getMe = (payload) => {
+  return apiClient({
+    method: 'get',
+    url: '/api/users/me',
+    params: {
+      populate: 'role',
+    }
+  })
+}
+
 export const projectList = (params) => {
   return apiClient({
     method: 'get',
@@ -62,7 +72,7 @@ export const detailactivityList = (params, id, type) => {
   }
   return apiClient({
     method: 'get',
-    url: `/api/${url}?filters[project][id][$eq]=${id}&pagination[pageSize]=100`,
+    url: `/api/${url}?filters[project][id][$eq]=${id}&pagination[pageSize]=100&sort[date]=asc`,
     params,
   })
 }

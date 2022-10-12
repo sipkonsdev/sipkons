@@ -20,6 +20,8 @@
       store.user.isLogin = true
       store.user.jwt = Cookies.get("jwt")
       store.user.user = JSON.parse(Cookies.get("user"))
+      store.user.role = JSON.parse(Cookies.get("role"))
+      
     } else {
       store.user.isLogin = false
     }

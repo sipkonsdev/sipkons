@@ -5,7 +5,7 @@
         <!-- <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">DKI Jakarta</p> -->
     </div>
     <!-- <div class="sm:grid sm:grid-cols-4 sm:gap-4"> -->
-      <div class="flex justify-end sm:col-span-3 sm:flex sm:justify-end p-2">
+      <div v-if="(menu.includes('meetings') ? acces.add_meeting.includes(store.user.role.type) : acces.add_activity.includes(store.user.role.type) )" class="flex justify-end sm:col-span-3 sm:flex sm:justify-end p-2">
         <button class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700" @click="handleModal(menu)">Tambah {{ captionButton }}</button>
       </div>
       <!-- <div class="col-span-1 flex items-center p-2">
@@ -72,13 +72,13 @@
                     </th>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <a class="font-medium text-blue-600" @click="handleReupload(item.id)">Upload</a>
+                        <a v-if="acces.reupload.includes(store.user.role.type)" class="font-medium text-blue-600" @click="handleReupload(item.id)">Upload</a>
                         <a :href="`${url+item.attributes.documents?.data?.attributes?.url}`" class="mt-2 font-medium text-blue-600">{{ item.attributes.documents?.data?.attributes?.name }}</a>
                       </div>
                     </td>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <a-radio-group v-model:value="item.attributes.approved_by_consultant" @change="handleRadio($event, item.id, 'consultant')">
+                        <a-radio-group v-model:value="item.attributes.approved_by_consultant" :disabled="radioKonsultan" @change="handleRadio($event, item.id, 'consultant')">
                           <a-radio :style="radioStyle" :value="true">Setuju</a-radio>
                           <a-radio :style="radioStyle" :value="false">Tolak</a-radio>
                         </a-radio-group>
@@ -90,27 +90,27 @@
                             <input :id="`radio-daily-konsultan-${item.id}`" type="radio" value="" :name="`radio-daily-konsultan-${item.id}`" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-700">
                             <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ">Tolak</label>
                         </div> -->
-                        <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
+                        <a v-if="acces.add_notes.includes(store.user.role.type)" class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
                         <a class="mt-2 font-medium text-blue-600">Catatan</a>
                       </div>
                     </td>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <a-radio-group v-model:value="item.attributes.approved_by_kasi" @change="handleRadio($event, item.id, 'kasi')">
+                        <a-radio-group v-model:value="item.attributes.approved_by_kasi" :disabled="radioKasi(item.attributes.approved_by_consultant)" @change="handleRadio($event, item.id, 'kasi')">
                           <a-radio :style="radioStyle" :value="true">Setuju</a-radio>
                           <a-radio :style="radioStyle" :value="false">Tolak</a-radio>
                         </a-radio-group>
-                        <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
+                        <a v-if="acces.add_notes.includes(store.user.role.type)" class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
                         <a class="mt-2 font-medium text-blue-600">Catatan</a>
                       </div>
                     </td>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <a-radio-group v-model:value="item.attributes.approved_by_kasudin" @change="handleRadio($event, item.id, 'kasudin')">
+                        <a-radio-group v-model:value="item.attributes.approved_by_kasudin" :disabled="radioKasudin(item.attributes.approved_by_kasi)" @change="handleRadio($event, item.id, 'kasudin')">
                           <a-radio :style="radioStyle" :value="true">Setuju</a-radio>
                           <a-radio :style="radioStyle" :value="false">Tolak</a-radio>
                         </a-radio-group>
-                        <a class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
+                        <a v-if="acces.add_notes.includes(store.user.role.type)" class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
                         <a class="mt-2 font-medium text-blue-600">Catatan</a>
                       </div>
                     </td>
@@ -157,7 +157,7 @@
                     </td>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <a href="#" class="font-medium text-blue-600">Upload</a>
+                        <a v-if="acces.reupload.includes(store.user.role.type)" class="font-medium text-blue-600">Upload</a>
                         <a :href="`${url+item.attributes.documents?.data?.attributes?.url}`" class="mt-2 font-medium text-blue-600">{{ item.attributes.documents?.data?.attributes?.name }}</a>
                       </div>
                     </td>
@@ -197,7 +197,7 @@
                     </td>
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
-                        <a href="#" class="font-medium text-blue-600">Upload</a>
+                        <a v-if="acces.reupload.includes(store.user.role.type)" class="font-medium text-blue-600">Upload</a>
                         <a :href="`${url+item.attributes.documents?.data[0]?.attributes?.url}`" class="mt-2 font-medium text-blue-600">{{ item.attributes.documents?.data[0]?.attributes?.name }}</a>
                       </div>
                     </td>
@@ -241,8 +241,11 @@
   import { useRoute } from 'vue-router';
   import RecycleBin from '../assets/logo/RecycleBin.vue';
   import ModalDelete from '../components/Modal/ModalDelete.vue'
+  import { useStore } from '../store'
+  import acces from '../acces'
 
   const route = useRoute()
+  const store = useStore()
   const menu = ref(['daily'])
   const data = ref([])
   const weekly = ref([])
@@ -279,8 +282,29 @@
         console.error(err)
       })
 
-  } 
+  }
+  const radioKonsultan = (param) =>{
+    return !acces.approve_konsultan.includes(store.user.role.type)
+  }
   
+  const radioKasi = (param) =>{
+    if (param) {
+      return !acces.approve_kasi.includes(store.user.role.type)
+    } else if (!param) {
+      return true
+    }
+    return !acces.approve_kasi.includes(store.user.role.type)
+  }
+
+const radioKasudin = (param) =>{
+    if (param) {
+      return !acces.approve_kasudin.includes(store.user.role.type)
+    } else if (!param) {
+      return true
+    }
+    return !acces.approve_kasudin.includes(store.user.role.type)
+}
+
   const handleMenu = (param) => {
     menu.value =[ param ]
   }
