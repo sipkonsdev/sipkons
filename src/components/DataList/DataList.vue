@@ -93,35 +93,21 @@
 import { onMounted, ref } from 'vue';
 import Maps from '../Maps/Maps.vue';
 import { useStore } from '../../store'
-import { projectList } from '../../services/api';
 import { notification } from 'ant-design-vue';
 import ModalDelete from '../Modal/ModalDelete.vue';
 import acces from '../../acces'
 
 const store = useStore()
 
-const dataList = ref({})
+// const dataList = ref({})
 const showModal = ref(false)
 const showModalDelete = ref(false)
 const delId = ref('')
 
-onMounted(() => {
-  fetchListProject()
+const props = defineProps({
+  dataList : Array,
 })
 
-const fetchListProject = async () => {
- let params = {
-    populate: 'daily_monitorings,weekly_monitorings,meetings,notes,project_location,contractor,consultant'
-  } 
-  await projectList(params)
-      .then(response => {
-        dataList.value = response.data.data
-        console.log(dataList.value)
-      })
-      .catch(err => {
-        console.error(err)
-      })
-}
 
 const handleModalDelete = (id) => {
   delId.value = id

@@ -19,10 +19,10 @@ export const getMe = (payload) => {
   })
 }
 
-export const projectList = (params) => {
+export const projectList = (params, search) => {
   return apiClient({
     method: 'get',
-    url: '/api/projects?sort[id]=asc',
+    url: `/api/projects?sort[id]=asc&filters[package_name][$containsi]=${search}`,
     params,
   })
 }
