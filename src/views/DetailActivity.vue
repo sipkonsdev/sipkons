@@ -283,9 +283,9 @@
       })
 
   }
-  const radioKonsultan = (param) =>{
+  const radioKonsultan = computed(() =>{
     return !acces.approve_konsultan.includes(store.user.role.type)
-  }
+  })
   
   const radioKasi = (param) =>{
     if (param) {
