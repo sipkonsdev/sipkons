@@ -15,7 +15,7 @@
               <p class="text-xl font-medium text-gray-900">{{ item.attributes.package_name }}</p>
               <p class="mt-1 max-w-2xl text-sm text-gray-500">Informasi Projek</p>
             </div>
-            <a-dropdown v-if="store.user.isLogin && store.user.user.username?.toLowerCase() == 'admin'">
+            <a-dropdown v-if="store.user.isLogin">
               <div class="h-4 w-5">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                   <path fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clipRule="evenodd" />
@@ -23,10 +23,10 @@
               </div>
               <template #overlay>
                 <a-menu>
-                  <a-menu-item>
+                  <a-menu-item v-if="acces.edit_project.includes(store.user.role.type)">
                     <a @click="() => $router.push({name: 'edit', query:{ id: item.id}})">Edit</a>
                   </a-menu-item>
-                  <a-menu-item>
+                  <a-menu-item v-if="acces.rm_project.includes(store.user.role.type)">
                     <a @click="handleModalDelete(item.id)">Remove</a>
                   </a-menu-item>
                   <a-menu-item>
@@ -293,6 +293,7 @@ import { useStore } from '../../store'
 import { projectList } from '../../services/api';
 import { notification } from 'ant-design-vue';
 import ModalDelete from '../Modal/ModalDelete.vue';
+import acces from '../../acces'
 
 const store = useStore()
 

@@ -20,6 +20,7 @@ export const useStore = defineStore('state', () => {
       isLogin: false,
       jwt: '',
       user: {},
+      role: {},
     }
   )
   const form = ref({

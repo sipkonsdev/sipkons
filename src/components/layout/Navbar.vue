@@ -107,7 +107,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { login } from '../../services/api'
+import { login, getMe } from '../../services/api'
 import { notification } from 'ant-design-vue';
 import router from '../../router';
 import { useStore } from '../../store/index'
@@ -172,6 +172,7 @@ const user = {
           jwt: response.data.jwt,
           user: response.data.user,
         }
+        getInit()
         notification.success({
           message: 'Succes login',
         })
@@ -183,6 +184,17 @@ const user = {
         console.error(err)
       })
     // .finally(() => this.isLoading = false)
+  }
+
+  const getInit = async() => {
+    await getMe()
+      .then(response => {
+        store.user.role = response.data.role
+        Cookies.set("role", JSON.stringify(response.data.role))
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
   const logout = () => {

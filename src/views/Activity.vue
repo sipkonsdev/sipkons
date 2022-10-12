@@ -6,7 +6,7 @@
       </div>
     <div class="sm:grid sm:grid-cols-4 sm:gap-4">
       <div class="flex justify-end sm:col-span-3 sm:flex sm:justify-start p-2">
-        <button v-if="store.user.isLogin && store.user.user.username?.toLowerCase() == 'admin'" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700" @click="toAddPage">Tambah Kegiatan</button>
+        <button v-if="acces.add_project.includes(store.user.role.type)" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700" @click="toAddPage">Tambah Kegiatan</button>
       </div>
       <div class="col-span-1 flex items-center p-2">
         <a-input type="search" class="h-8" placeholder="Cari" style="margin-right: 0.5rem;"/>
@@ -22,6 +22,7 @@
   import DataList from '../components/DataList/DataList.vue';
   import router from '../router';
   import { useStore } from '../store/index'
+  import acces from '../acces'
 
   const store = useStore()
   const toAddPage = () => {
