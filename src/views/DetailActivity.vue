@@ -43,7 +43,7 @@
     <div v-if="menu.includes('daily') || menu.includes('weekly')" class="mt-10 overflow-x-auto max-h-96 overflow-y-auto relative shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
-                <tr>
+                <tr class="">
                     <th scope="col" class="py-3 px-6">
                         Tanggal
                     </th>
@@ -51,7 +51,7 @@
                         Berkas
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        Konsultan Perencanaan
+                        Konsultan Pengawas
                     </th>
                     <th scope="col" class="py-3 px-6">
                         Kepala Seksi Perencanaan & Pengawasan

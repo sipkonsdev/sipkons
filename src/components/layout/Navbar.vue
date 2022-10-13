@@ -91,16 +91,45 @@
             </div>
           </div>
           <div class="space-y-6 py-6 px-5">
-            <div>
+            <div v-if="!store.user.isLogin">
               <!-- <a href="signup" class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Sign up</a> -->
               <p class="mt-6 text-center text-base font-medium text-gray-500">
-                Existing customer?
-                <button class="text-indigo-600 hover:text-indigo-500">Sign in</button>
+                <!-- Existing customer? -->
+                <button class="text-indigo-600 hover:text-indigo-500" @click="handleLoginMobile">Sign in</button>
               </p>
+            </div>
+            <div v-if="store.user.isLogin" class="grid grid-cols-6 gap-3 flex items-center">
+              <div class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer">
+                <span class="font-medium text-gray-600 dark:text-gray-300" >{{ store.user.user.username?.charAt(0).toUpperCase()}}</span>
+              </div>
+              <div class="col-span-5">
+                <div class="flex items-end">{{ store.user.user.fullname }}</div>
+                <div class="flex items-start">{{ store.user.user.email }}</div>
+              </div>
+              <div class="col-span-6">
+                <div class="flex justify-end font-medium text-blue-600" @click="logout">Logout</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <a-modal
+        :visible="modalLoginMobile"
+        :footer="null"
+        @cancel="handleLoginMobile"
+      >
+        <div class="mt-5 py-2 px-1">
+          <div class="mb-2" >
+            <a-input placeholder="Username" @change="handleUsername"/>
+          </div>
+          <div class="mb-2" >
+            <a-input-password placeholder="Password" @change="handlePassword"/>
+          </div>
+          <div class="box-content flex justify-end">
+            <a class="whitespace-nowrap text-sm rounded-md border border-transparent bg-indigo-600 font-medium text-white hover:text-blue-500 px-2 py-1" @click="loginUser">Sign in</a>
+          </div>
+        </div>
+      </a-modal>
     </DisclosurePanel>
   </Disclosure>
 </template>
@@ -128,6 +157,7 @@ const state_ = reactive({
 })
 const visible = ref(false)
 const avatar = ref(false)
+const modalLoginMobile = ref(false)
 const user = {
     name: 'Tom Cook',
     email: 'tom@example.com',
@@ -179,6 +209,7 @@ const user = {
         router.push({
           name: 'home'
         })
+        modalLoginMobile.value = false
       })
       .catch(err => {
         console.error(err)
@@ -204,9 +235,15 @@ const user = {
           isLogin: false,
           jwt: '',
         }
+    notification.success({
+      message: 'Success Logout',
+    })
     router.push({
       name: 'home',
     })
+  }
+  const handleLoginMobile = () => {
+    modalLoginMobile.value = !modalLoginMobile.value
   }
 </script>
 
