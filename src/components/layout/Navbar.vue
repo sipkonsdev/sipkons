@@ -4,7 +4,8 @@
       <div class="flex h-16 items-center justify-between">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <h1 class="text-3xl font-bold tracking-tight text-white">SIPKONS</h1>
+            <Sipkons class="w-44 h-44" style="fill: white"/>
+            <!-- <h1 class="text-3xl font-bold tracking-tight text-white">SIPKONS</h1> -->
             <!-- <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" /> -->
           </div>
           <div class="hidden md:block">
@@ -141,7 +142,7 @@ import { notification } from 'ant-design-vue';
 import router from '../../router';
 import { useStore } from '../../store/index'
 import Cookies from 'js-cookie'
-
+import Sipkons from "../../assets/logo/Sipkons.vue"
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
