@@ -97,8 +97,8 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <a-radio-group v-model:value="item.attributes.approved_by_kasi" :disabled="radioKasi(item.attributes.approved_by_consultant)" @change="handleRadio($event, item.id, 'kasi')">
-                          <a-radio :style="radioStyle" :value="true">Setuju</a-radio>
-                          <a-radio :style="radioStyle" :value="false">Tolak</a-radio>
+                          <a-radio :style="radioStyle" :value="true">Laporan Diterima</a-radio>
+                          <a-radio :style="radioStyle" :value="false">Laporan Ditolak</a-radio>
                         </a-radio-group>
                         <a v-if="acces.add_notes.includes(store.user.role.type)" class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
                         <a class="mt-2 font-medium text-blue-600">Catatan</a>
@@ -107,8 +107,8 @@
                     <td class="py-4 px-6">
                       <div class="flex flex-col">
                         <a-radio-group v-model:value="item.attributes.approved_by_kasudin" :disabled="radioKasudin(item.attributes.approved_by_kasi)" @change="handleRadio($event, item.id, 'kasudin')">
-                          <a-radio :style="radioStyle" :value="true">Setuju</a-radio>
-                          <a-radio :style="radioStyle" :value="false">Tolak</a-radio>
+                          <a-radio :style="radioStyle" :value="true">Laporan Diterima</a-radio>
+                          <a-radio :style="radioStyle" :value="false">Laporan Ditolak</a-radio>
                         </a-radio-group>
                         <a v-if="acces.add_notes.includes(store.user.role.type)" class="mt-2 font-medium text-blue-600">+ Tambah Catatan</a>
                         <a class="mt-2 font-medium text-blue-600">Catatan</a>
@@ -257,8 +257,8 @@
   const reupload = ref(false)
   const radioStyle = reactive({
     display: 'flex',
-    height: '30px',
-    lineHeight: '30px',
+    // height: '30px',
+    // lineHeight: '30px',
   });
   const value = ref('')
 
